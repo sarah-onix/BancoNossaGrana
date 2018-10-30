@@ -17,6 +17,8 @@ O sistema é composto por três telas:
 * Tela de estatísticas: nesta tela o usuário visualiza informações gerais sobre a conta tais como: saldo médio no mês/ano indicados; total e quantidade de créditos no mês ano indicados; total e quantidade de débitos no mês ano indicados. O usuário tem acesso a tela de estatisticas a partir da tela de operacoes  *<< ESTA TELA AINDA NÃO ESTA IMPLEMENTADA !!*
 
   * Esta tela deve apresentar o nome do correntista e o mês selecionado (quando a tela abre deve vir selecionado o mês corrente). Deve haver um botão para permitir a seleção de outro mês.
+  * Para o cálculo do saldo médio considerar todos os meses com 30 dias. 
+  * Para calcular o saldo médio calcule inicialmente o saldo no primeiro dia do mês. Para tanto é necessário acumular todos os depósitos e retiradas desde a abertura da conta. A partir do primeiro dia o saldo do dia é o saldo do dia anterior mais os depoósitos e retiradas do dia corrente.
 
 Nesta primeira versão os dados das contas são mantidos em um arquivo texto. É necessário garantir que sempre que o sistema é encerrado as movimentações atualizadas das contas são salvas neste arquivo.
 
