@@ -1,4 +1,4 @@
-#ESPECIFICACAO DE SOFTWARE
+# ESPECIFICACAO DE SOFTWARE
 ## Modulo de acesso a conta corrente do Banco Nossa Grana
 
 O módulo de acesso a conta corrente é um módulo simples que deve permitir ao funcionário do banco executar operações básicas sobre as contas correntes:
