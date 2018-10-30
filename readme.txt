@@ -1,87 +1,87 @@
 #ESPECIFICACAO DE SOFTWARE
 ## Modulo de acesso a conta corrente do Banco Nossa Grana
 
-O módulo de acesso a conta corrente é um módulo simples que deve permitir ao funcionário do banco executar operações básicas sobre as contas correntes:
+O mÃ³dulo de acesso a conta corrente Ã© um mÃ³dulo simples que deve permitir ao funcionÃ¡rio do banco executar operaÃ§Ãµes bÃ¡sicas sobre as contas correntes:
 * Consultar saldo
-* Consultar últimos movimentos
+* Consultar Ãºltimos movimentos
 * Consultar a categoria da conta
-* Efetuar depósitos
+* Efetuar depÃ³sitos
 * Efetuar retiradas
-* Consultar estatísticas sobre a conta corrente
+* Consultar estatÃ­sticas sobre a conta corrente
 
-O sistema é composto por tres telas:
-* Tela de identificação da conta corrente: nesta tela o usuário informa o número da conta corrente que deseja acessar.
+O sistema Ã© composto por tres telas:
+* Tela de identificaÃ§Ã£o da conta corrente: nesta tela o usuÃ¡rio informa o nÃºmero da conta corrente que deseja acessar.
 
-* Tela de operações: nesta tela o usuário visualiza o saldo, a categoria da conta, o limite diário para saque e os últimos movimentos da conta informada e pode executar operações de depósito e retirada.
+* Tela de operaÃ§Ãµes: nesta tela o usuÃ¡rio visualiza o saldo, a categoria da conta, o limite diÃ¡rio para saque e os Ãºltimos movimentos da conta informada e pode executar operaÃ§Ãµes de depÃ³sito e retirada. << BUGFIX: ajustar a categoria da conta quando ela muda !!
 
-* Tela de estatísticas: nesta tela o usuário visualiza informações gerais sobre a conta tais como: saldo médio no mês/ano indicados; total e quantidade de créditos no mês ano indicados; total e quantidade de débitos no mês ano indicados. O usuário tem acesso a tela de estatisticas a partir da tela de operacoes  << ESTA TELA AINDA NÃO ESTA IMPLEMENTADA !!
+* Tela de estatÃ­sticas: nesta tela o usuÃ¡rio visualiza informaÃ§Ãµes gerais sobre a conta tais como: saldo mÃ©dio no mÃªs/ano indicados; total e quantidade de crÃ©ditos no mÃªs ano indicados; total e quantidade de dÃ©bitos no mÃªs ano indicados. O usuÃ¡rio tem acesso a tela de estatisticas a partir da tela de operacoes  << ESTA TELA AINDA NÃƒO ESTA IMPLEMENTADA !!
 
-Nesta primeira versão os dados das contas são mantidos em um arquivo texto. É necessário garantir que sempre que o sistema é encerrado as movimentações atualizadas das contas são salvas neste arquivo.
+Nesta primeira versÃ£o os dados das contas sÃ£o mantidos em um arquivo texto. Ã‰ necessÃ¡rio garantir que sempre que o sistema Ã© encerrado as movimentaÃ§Ãµes atualizadas das contas sÃ£o salvas neste arquivo.
 
-As contas desse banco tem um comportamento específico. Quanto mais dinheiro o cliente tem depositado mais o banco valoriza seus depósitos. Todos as contas iniciam na categoria “Silver” e zeradas. Contas “Silver” não têm seus depósitos valorizados, ou seja, o valor creditado é exatamente o valor depositado pelo cliente. Quando o saldo da conta atinge ou ultrapassa R$ 50.000,00, a conta passa para a categoria “Gold”. Contas “Gold” têm seus depósitos valorizados em 1%. Neste caso se o cliente depositar R$ 1.000,00 o valor creditado será de R$ 1.010,00. Finalmente se o saldo da conta atinge ou supera os R$ 200.000,00, a conta passa para a categoria “Platinum”. Contas “Platinum” têm seus depósitos valorizados em 2,5%. A verificação de “upgrade” da conta se dá via operação de depósito, e não é possível que um cliente faça “upgrade” diretamente de “Silver” para “Platinum” em uma única operação.
+As contas desse banco tem um comportamento especÃ­fico. Quanto mais dinheiro o cliente tem depositado mais o banco valoriza seus depÃ³sitos. Todos as contas iniciam na categoria â€œSilverâ€ e zeradas. Contas â€œSilverâ€ nÃ£o tÃªm seus depÃ³sitos valorizados, ou seja, o valor creditado Ã© exatamente o valor depositado pelo cliente. Quando o saldo da conta atinge ou ultrapassa R$ 50.000,00, a conta passa para a categoria â€œGoldâ€. Contas â€œGoldâ€ tÃªm seus depÃ³sitos valorizados em 1%. Neste caso se o cliente depositar R$ 1.000,00 o valor creditado serÃ¡ de R$ 1.010,00. Finalmente se o saldo da conta atinge ou supera os R$ 200.000,00, a conta passa para a categoria â€œPlatinumâ€. Contas â€œPlatinumâ€ tÃªm seus depÃ³sitos valorizados em 2,5%. A verificaÃ§Ã£o de â€œupgradeâ€ da conta se dÃ¡ via operaÃ§Ã£o de depÃ³sito, e nÃ£o Ã© possÃ­vel que um cliente faÃ§a â€œupgradeâ€ diretamente de â€œSilverâ€ para â€œPlatinumâ€ em uma Ãºnica operaÃ§Ã£o.
 
-Quando o saldo da conta diminui, em função de uma operação de retirada/saque, a categoria também pode retroceder. Os limites, porém, não são os mesmos ao verificados quando uma conta sofre “upgrade”. Uma conta só perde sua categoria “Platinum”, e passa para “Gold”, se o saldo cair abaixo de R$ 100.000,00. A conta só perde a categoria “Gold”, e passa para “Silver”, se o saldo cair para menos de R$ 25.000,00. Note que uma conta nunca perde duas categorias em uma única operação de retirada mesmo que o saldo caia abaixo de R$ 25.000,00. Se ele era “Platinum”, cai para “Gold”. Só poderá cair para “Silver” na próxima operação de retirada. Observação: as contas nunca podem ficar negativas (o banco não trabalha com cheque especial).
+Quando o saldo da conta diminui, em funÃ§Ã£o de uma operaÃ§Ã£o de retirada/saque, a categoria tambÃ©m pode retroceder. Os limites, porÃ©m, nÃ£o sÃ£o os mesmos ao verificados quando uma conta sofre â€œupgradeâ€. Uma conta sÃ³ perde sua categoria â€œPlatinumâ€, e passa para â€œGoldâ€, se o saldo cair abaixo de R$ 100.000,00. A conta sÃ³ perde a categoria â€œGoldâ€, e passa para â€œSilverâ€, se o saldo cair para menos de R$ 25.000,00. Note que uma conta nunca perde duas categorias em uma Ãºnica operaÃ§Ã£o de retirada mesmo que o saldo caia abaixo de R$ 25.000,00. Se ele era â€œPlatinumâ€, cai para â€œGoldâ€. SÃ³ poderÃ¡ cair para â€œSilverâ€ na prÃ³xima operaÃ§Ã£o de retirada. ObservaÃ§Ã£o: as contas nunca podem ficar negativas (o banco nÃ£o trabalha com cheque especial).
 
-ATENCAO: contas Silver possuem um limite diário de R$ 10000,00 para saques; contas Gold possuem um limite diário de R$ 100000,00 para saques; contas Platinum possuem um limite diário de 500000,00 para saques. <<< ESTAS RESTRIÇÕES AINDA NÃO ESTÃO IMPLEMENTADAS !!
+ATENCAO: contas Silver possuem um limite diÃ¡rio de R$ 10000,00 para saques; contas Gold possuem um limite diÃ¡rio de R$ 100000,00 para saques; contas Platinum possuem um limite diÃ¡rio de 500000,00 para saques. <<< ESTAS RESTRIÃ‡Ã•ES AINDA NÃƒO ESTÃƒO IMPLEMENTADAS !!
 
-Para efeitos de armazenamento no arquivo a categoria “Silver” é identificada com o número “0”, a categoria “Gold” com o número “1” e a categoria “Platinum” com o número “2”.
+Para efeitos de armazenamento no arquivo a categoria â€œSilverâ€ Ã© identificada com o nÃºmero â€œ0â€, a categoria â€œGoldâ€ com o nÃºmero â€œ1â€ e a categoria â€œPlatinumâ€ com o nÃºmero â€œ2â€.
 
-O número de conta pode ser qualquer inteiro positivo.
+O nÃºmero de conta pode ser qualquer inteiro positivo.
 
 PERSISTENCIA DOS DADOS:
-Para simplificar a troca de dados os seguintes arquivos são fornecidos:
+Para simplificar a troca de dados os seguintes arquivos sÃ£o fornecidos:
 
 * Persistencia.java:
-  * modulo Java com métodos para leitura e gravação de dados relativos a contas corrente e movimentações de contas corrente (operações de depósito e retirada).
+  * modulo Java com mÃ©todos para leitura e gravaÃ§Ã£o de dados relativos a contas corrente e movimentaÃ§Ãµes de contas corrente (operaÃ§Ãµes de depÃ³sito e retirada).
 * BDContasBNG.txt:
   * arquivo exemplo com dados de contas corrente.
 * BDOperBNG.txt:
-  * arquivo exemplo com dados de operações sobre contas corrente.
+  * arquivo exemplo com dados de operaÃ§Ãµes sobre contas corrente.
 
 ROTEIRO DE TRABALHO:
 
-PARTE I: completar a implementação atual
-1) Analisar a implementação do sistema
-2) Implementar as funcionalidades que estão faltando
+PARTE I: completar a implementaÃ§Ã£o atual
+1) Analisar a implementaÃ§Ã£o do sistema
+2) Implementar as funcionalidades que estÃ£o faltando
 3) Identificar os eventuais problemas encontrados
 
-PARTE II: refatoração
+PARTE II: refatoraÃ§Ã£o
 
-1) Adoção do padrão Singleton
-Inicialmente aplica-se o padrão singleton na classe "Persistencia".
-Depois criam-se as classes "Contas" e "Operacoes" que irão
-encapsular o dicionário de contas e a lista de operações.
+1) AdoÃ§Ã£o do padrÃ£o Singleton
+Inicialmente aplica-se o padrÃ£o singleton na classe "Persistencia".
+Depois criam-se as classes "Contas" e "Operacoes" que irÃ£o
+encapsular o dicionÃ¡rio de contas e a lista de operaÃ§Ãµes.
 
-Isso irá permitir tanto aplicar o padrão singleton como
-operações de mais alto nível como manter a "conta em uso" como a
-lista de operações da "conta em uso".
+Isso irÃ¡ permitir tanto aplicar o padrÃ£o singleton como
+operaÃ§Ãµes de mais alto nÃ­vel como manter a "conta em uso" como a
+lista de operaÃ§Ãµes da "conta em uso".
 
-2) Adoção da arquitetura em 3 camadas e do padrão fachada
-Será criada a classe LogicaOperacoes com as operações
-demandadas pela camada de interface com o usuário:
+2) AdoÃ§Ã£o da arquitetura em 3 camadas e do padrÃ£o fachada
+SerÃ¡ criada a classe LogicaOperacoes com as operaÃ§Ãµes
+demandadas pela camada de interface com o usuÃ¡rio:
 - Definir conta em uso
-- Operaçao de crédito
-- Operacao de débito
+- OperaÃ§ao de crÃ©dito
+- Operacao de dÃ©bito
 - Solicita extrato
 - Solicita saldo
 - Solicita saldo medio
-- Total créditos
-- Total débitos
-- VALIDACOES: criar uma classe (singleton) para validacoes dos limites diários de saques.
+- Total crÃ©ditos
+- Total dÃ©bitos
+- VALIDACOES: criar uma classe (singleton) para validacoes dos limites diÃ¡rios de saques.
 
-Isso irá permitir que a dependencia da camada de 
-apresentacao para a de lógica se restrinja a apenas
+Isso irÃ¡ permitir que a dependencia da camada de 
+apresentacao para a de lÃ³gica se restrinja a apenas
 uma classe.
 
-3) Adoção do padrão StatePattern
+3) AdoÃ§Ã£o do padrÃ£o StatePattern
 Cria a interface StateConta
-Altera a classe conta para explorar o padrão StatePattern. 
+Altera a classe conta para explorar o padrÃ£o StatePattern. 
 Explora classes aninhadas.
 
-4) Adoção do padrão Factory e padrao Factory Method
-** para a criação dos StatePattern (Factory)
+4) AdoÃ§Ã£o do padrÃ£o Factory e padrao Factory Method
+** para a criaÃ§Ã£o dos StatePattern (Factory)
 ** para a criacao das operacoes (Factory Methods especificos para deposito e retirada)
 
-5) Adoção do padrão Observer - funcionalidade adicional
-Criar um dialogo modeless que mantém visível o nome do correntista e o saldo médio com o maior saldo médio da agência. Adotar observer para ser notificado pela persistencia toda vez que esta informação variar.
+5) AdoÃ§Ã£o do padrÃ£o Observer - funcionalidade adicional
+Criar um dialogo modeless que mantÃ©m visÃ­vel o nome do correntista e o saldo mÃ©dio com o maior saldo mÃ©dio da agÃªncia. Adotar observer para ser notificado pela persistencia toda vez que esta informaÃ§Ã£o variar.
 
