@@ -9,12 +9,12 @@ O módulo de acesso a conta corrente é um módulo simples que deve permitir ao 
 * Efetuar retiradas
 * Consultar estatísticas sobre a conta corrente
 
-O sistema é composto por tres telas:
+O sistema é composto por três telas:
 * Tela de identificação da conta corrente: nesta tela o usuário informa o número da conta corrente que deseja acessar.
 
-* Tela de operações: nesta tela o usuário visualiza o saldo, a categoria da conta, o limite diário para saque e os últimos movimentos da conta informada e pode executar operações de depósito e retirada. << BUGFIX: ajustar a categoria da conta quando ela muda !!
+* Tela de operações: nesta tela o usuário visualiza o saldo, a categoria da conta, o limite diário para saque e os últimos movimentos da conta informada e pode executar operações de depósito e retirada. *<< BUGFIX: ajustar a categoria da conta quando ela muda !!*
 
-* Tela de estatísticas: nesta tela o usuário visualiza informações gerais sobre a conta tais como: saldo médio no mês/ano indicados; total e quantidade de créditos no mês ano indicados; total e quantidade de débitos no mês ano indicados. O usuário tem acesso a tela de estatisticas a partir da tela de operacoes  << ESTA TELA AINDA NÃO ESTA IMPLEMENTADA !!
+* Tela de estatísticas: nesta tela o usuário visualiza informações gerais sobre a conta tais como: saldo médio no mês/ano indicados; total e quantidade de créditos no mês ano indicados; total e quantidade de débitos no mês ano indicados. O usuário tem acesso a tela de estatisticas a partir da tela de operacoes  *<< ESTA TELA AINDA NÃO ESTA IMPLEMENTADA !!*
 
 Nesta primeira versão os dados das contas são mantidos em um arquivo texto. É necessário garantir que sempre que o sistema é encerrado as movimentações atualizadas das contas são salvas neste arquivo.
 
@@ -22,7 +22,7 @@ As contas desse banco tem um comportamento específico. Quanto mais dinheiro o c
 
 Quando o saldo da conta diminui, em função de uma operação de retirada/saque, a categoria também pode retroceder. Os limites, porém, não são os mesmos ao verificados quando uma conta sofre “upgrade”. Uma conta só perde sua categoria “Platinum”, e passa para “Gold”, se o saldo cair abaixo de R$ 100.000,00. A conta só perde a categoria “Gold”, e passa para “Silver”, se o saldo cair para menos de R$ 25.000,00. Note que uma conta nunca perde duas categorias em uma única operação de retirada mesmo que o saldo caia abaixo de R$ 25.000,00. Se ele era “Platinum”, cai para “Gold”. Só poderá cair para “Silver” na próxima operação de retirada. Observação: as contas nunca podem ficar negativas (o banco não trabalha com cheque especial).
 
-ATENCAO: contas Silver possuem um limite diário de R$ 10000,00 para saques; contas Gold possuem um limite diário de R$ 100000,00 para saques; contas Platinum possuem um limite diário de 500000,00 para saques. <<< ESTAS RESTRIÇÕES AINDA NÃO ESTÃO IMPLEMENTADAS !!
+ATENCAO: contas Silver possuem um limite diário de R$ 10000,00 para saques; contas Gold possuem um limite diário de R$ 100000,00 para saques; contas Platinum possuem um limite diário de 500000,00 para saques. *<<< ESTAS RESTRIÇÕES AINDA NÃO ESTÃO IMPLEMENTADAS !!*
 
 Para efeitos de armazenamento no arquivo a categoria “Silver” é identificada com o número “0”, a categoria “Gold” com o número “1” e a categoria “Platinum” com o número “2”.
 
@@ -38,16 +38,16 @@ Para simplificar a troca de dados os seguintes arquivos são fornecidos:
 * BDOperBNG.txt:
   * arquivo exemplo com dados de operações sobre contas corrente.
 
-ROTEIRO DE TRABALHO:
+# ROTEIRO DE TRABALHO:
 
-PARTE I: completar a implementação atual
+## PARTE I: completar a implementação atual
 1) Analisar a implementação do sistema
 2) Implementar as funcionalidades que estão faltando
 3) Identificar os eventuais problemas encontrados
 
-PARTE II: refatoração
+## PARTE II: refatoração
 
-1) Adoção do padrão Singleton
+### Adoção do padrão Singleton
 Inicialmente aplica-se o padrão singleton na classe "Persistencia".
 Depois criam-se as classes "Contas" e "Operacoes" que irão
 encapsular o dicionário de contas e a lista de operações.
@@ -56,32 +56,32 @@ Isso irá permitir tanto aplicar o padrão singleton como
 operações de mais alto nível como manter a "conta em uso" como a
 lista de operações da "conta em uso".
 
-2) Adoção da arquitetura em 3 camadas e do padrão fachada
+### Adoção da arquitetura em 3 camadas e do padrão fachada
 Será criada a classe LogicaOperacoes com as operações
 demandadas pela camada de interface com o usuário:
-- Definir conta em uso
-- Operaçao de crédito
-- Operacao de débito
-- Solicita extrato
-- Solicita saldo
-- Solicita saldo medio
-- Total créditos
-- Total débitos
-- VALIDACOES: criar uma classe (singleton) para validacoes dos limites diários de saques.
+* Definir conta em uso
+* Operaçao de crédito
+* Operacao de débito
+* Solicita extrato
+* Solicita saldo
+* Solicita saldo medio
+* Total créditos
+* Total débitos
+* VALIDACOES: criar uma classe (singleton) para validacoes dos limites diários de saques.
 
 Isso irá permitir que a dependencia da camada de 
 apresentacao para a de lógica se restrinja a apenas
 uma classe.
 
-3) Adoção do padrão StatePattern
+### Adoção do padrão StatePattern
 Cria a interface StateConta
 Altera a classe conta para explorar o padrão StatePattern. 
 Explora classes aninhadas.
 
-4) Adoção do padrão Factory e padrao Factory Method
-** para a criação dos StatePattern (Factory)
-** para a criacao das operacoes (Factory Methods especificos para deposito e retirada)
+### Adoção do padrão Factory e padrao Factory Method
+* para a criação dos StatePattern (Factory)
+* para a criacao das operacoes (Factory Methods especificos para deposito e retirada)
 
-5) Adoção do padrão Observer - funcionalidade adicional
+### Adoção do padrão Observer - funcionalidade adicional
 Criar um dialogo modeless que mantém visível o nome do correntista e o saldo médio com o maior saldo médio da agência. Adotar observer para ser notificado pela persistencia toda vez que esta informação variar.
 
