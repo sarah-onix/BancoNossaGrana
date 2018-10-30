@@ -16,6 +16,8 @@ O sistema é composto por três telas:
 
 * Tela de estatísticas: nesta tela o usuário visualiza informações gerais sobre a conta tais como: saldo médio no mês/ano indicados; total e quantidade de créditos no mês ano indicados; total e quantidade de débitos no mês ano indicados. O usuário tem acesso a tela de estatisticas a partir da tela de operacoes  *<< ESTA TELA AINDA NÃO ESTA IMPLEMENTADA !!*
 
+** Esta tela deve apresentar o nome do correntista e o mês selecionado (quando a tela abre deve vir selecionado o mês corrente). Deve haver um botão para permitir a seleção de outro mês.
+
 Nesta primeira versão os dados das contas são mantidos em um arquivo texto. É necessário garantir que sempre que o sistema é encerrado as movimentações atualizadas das contas são salvas neste arquivo.
 
 As contas desse banco tem um comportamento específico. Quanto mais dinheiro o cliente tem depositado mais o banco valoriza seus depósitos. Todos as contas iniciam na categoria “Silver” e zeradas. Contas “Silver” não têm seus depósitos valorizados, ou seja, o valor creditado é exatamente o valor depositado pelo cliente. Quando o saldo da conta atinge ou ultrapassa R$ 50.000,00, a conta passa para a categoria “Gold”. Contas “Gold” têm seus depósitos valorizados em 1%. Neste caso se o cliente depositar R$ 1.000,00 o valor creditado será de R$ 1.010,00. Finalmente se o saldo da conta atinge ou supera os R$ 200.000,00, a conta passa para a categoria “Platinum”. Contas “Platinum” têm seus depósitos valorizados em 2,5%. A verificação de “upgrade” da conta se dá via operação de depósito, e não é possível que um cliente faça “upgrade” diretamente de “Silver” para “Platinum” em uma única operação.
