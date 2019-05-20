@@ -33,7 +33,7 @@ public class TelaOperacoes {
 	private TextField tfValorOperacao;
 	private TextField tfSaldo;
 
-	public TelaOperacoes(Stage mainStage, Scene telaEntrada, Conta conta, List<Operacao> operacoes) { // Tirar esse parâmetro																					// conta
+	public TelaOperacoes(Stage mainStage, Scene telaEntrada, Conta conta, List<Operacao> operacoes) { 																					// conta
 		this.mainStage = mainStage;
 		this.cenaEntrada = telaEntrada;
 		this.conta = conta;
@@ -154,7 +154,6 @@ public class TelaOperacoes {
         			  conta.getStatus(),
         			  valor,
         			  1);
-        	  // Esta adicionando em duas listas (resolver na camada de negocio)
               operacoes.add(op);        	  
         	  tfSaldo.setText(""+conta.getSaldo());
         	  operacoesConta.add(op);
