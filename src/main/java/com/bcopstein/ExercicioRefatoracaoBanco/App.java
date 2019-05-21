@@ -21,7 +21,7 @@ public class App extends Application {
     	
     	primaryStage.setTitle("$$ Banco NOSSA GRANA $$");
 
-    	telaEntrada = new TelaEntrada(primaryStage, contas, operacoes); // << Substituir por singleton
+    	telaEntrada = new TelaEntrada(primaryStage, contas, operacoes); 
 
         primaryStage.setScene(telaEntrada.getTelaEntrada());
         primaryStage.show();

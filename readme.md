@@ -60,6 +60,10 @@ Isso irá permitir tanto aplicar o padrão singleton como
 operações de mais alto nível como manter a "conta em uso" como a
 lista de operações da "conta em uso".
 
+### Tornar as dependências explícitas
+verificar as classes onde o teste é simplificado pelo uso de dependências
+explícitas através do construtor e fazer as modificações necessárias
+
 ### Adoção da arquitetura em 3 camadas e do padrão fachada
 Será criada a classe LogicaOperacoes com as operações
 demandadas pela camada de interface com o usuário:
@@ -76,6 +80,8 @@ demandadas pela camada de interface com o usuário:
 Isso irá permitir que a dependencia da camada de 
 apresentacao para a de lógica se restrinja a apenas
 uma classe.
+
+CAdotar o padrão MVC ou uma de suas variantes na camada de apresentação JavaFX
 
 ### Adoção do padrão StatePattern
 Cria a interface StateConta
