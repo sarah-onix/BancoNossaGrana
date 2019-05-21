@@ -81,8 +81,6 @@ Isso irá permitir que a dependencia da camada de
 apresentacao para a de lógica se restrinja a apenas
 uma classe.
 
-CAdotar o padrão MVC ou uma de suas variantes na camada de apresentação JavaFX
-
 ### Adoção do padrão StatePattern
 Cria a interface StateConta
 Altera a classe conta para explorar o padrão StatePattern. 
