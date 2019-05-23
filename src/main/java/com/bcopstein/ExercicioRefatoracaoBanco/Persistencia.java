@@ -1,4 +1,5 @@
 package com.bcopstein.ExercicioRefatoracaoBanco;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
@@ -21,7 +22,7 @@ public class Persistencia {
     	Map<Integer,Conta> contas = new HashMap<>();
     	
         String currDir = Paths.get("").toAbsolutePath().toString();
-        String nameComplete = currDir+"\\"+NomeBDContas;
+        String nameComplete = currDir+File.separator+NomeBDContas;
         //System.out.println(nameComplete);
         Path path2 = Paths.get(nameComplete); 
         try (Scanner sc = new Scanner(Files.newBufferedReader(path2, Charset.defaultCharset()))){ 
@@ -84,7 +85,7 @@ public class Persistencia {
         List<Operacao> operacoes = new LinkedList<Operacao>();
         
     	String currDir = Paths.get("").toAbsolutePath().toString();
-        String nameComplete = currDir+"\\"+NomeBDOperacoes;
+        String nameComplete = currDir+File.separator+NomeBDOperacoes;
         System.out.println(nameComplete);
         Path path2 = Paths.get(nameComplete); 
         try (Scanner sc = new Scanner(Files.newBufferedReader(path2, Charset.defaultCharset()))){ 

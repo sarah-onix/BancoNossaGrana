@@ -1,9 +1,9 @@
 package com.bcopstein.ExercicioRefatoracaoBanco;
-import java.util.List;
-import java.util.Map;
-
 import javafx.application.Application;
 import javafx.stage.Stage;
+
+import java.util.List;
+import java.util.Map;
 
 
 public class App extends Application {
@@ -15,6 +15,9 @@ public class App extends Application {
 	
     @Override
     public void start(Stage primaryStage) {
+       // TelaEstatistica test = new TelaEstatistica(primaryStage);
+       // Scene scene = test.getTelaOperacoes();
+       // test.getTelaOperacoes();
     	persistencia = new Persistencia();
         contas = persistencia.loadContas();    	
     	operacoes = persistencia.loadOperacoes();
@@ -24,6 +27,7 @@ public class App extends Application {
     	telaEntrada = new TelaEntrada(primaryStage, contas, operacoes); 
 
         primaryStage.setScene(telaEntrada.getTelaEntrada());
+       // primaryStage.setScene(test.getTelaOperacoes());
         primaryStage.show();
     }
     
