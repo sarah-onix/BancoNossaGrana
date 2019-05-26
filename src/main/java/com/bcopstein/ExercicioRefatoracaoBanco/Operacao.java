@@ -13,6 +13,8 @@ public class Operacao {
     private int statusConta;
     private double valorOperacao;
     private int tipoOperacao;
+	// Data e hora no formato DD/MM/AA HH:mm
+	private String dataHora;
     
 	public Operacao(int dia, int mes, int ano, int hora, int minuto, int segundo, int numeroConta, int statusConta,
 			double valorOperacao, int tipoOperacao) {
@@ -27,6 +29,7 @@ public class Operacao {
 		this.statusConta = statusConta;
 		this.valorOperacao = valorOperacao;
 		this.tipoOperacao = tipoOperacao;
+		this.dataHora = getDataHora();
 	}
 
 	public int getDia() {
@@ -67,6 +70,13 @@ public class Operacao {
 
 	public int getTipoOperacao() {
 		return tipoOperacao;
+	}
+
+	/**
+	 * @return data e hora da operação no formato DD/MM/AA HH:mm
+	 */
+	public String getDataHora() {
+		return String.format("%02d", dia) + "/" + String.format("%02d", mes) + "/" + Integer.toString(ano) + " " + String.format("%02d", hora) + ":" + String.format("%02d", minuto);
 	}
     
 	@Override
