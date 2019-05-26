@@ -1,4 +1,5 @@
 package com.bcopstein.ExercicioRefatoracaoBanco;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -6,17 +7,20 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Persistencia {
     private final String NomeBDContas = "BDContasBNG.txt";
     private final String NomeBDOperacoes = "BDOperBNG.txt";
+    private static final Persistencia INSTANCE = new Persistencia();
+
+
+    private Persistencia() {
+    }
+
+    public static Persistencia getInstance() {
+        return INSTANCE;
+    }
     
     public Map<Integer,Conta> loadContas(){
     	Map<Integer,Conta> contas = new HashMap<>();
