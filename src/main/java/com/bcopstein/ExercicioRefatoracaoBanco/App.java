@@ -1,4 +1,5 @@
 package com.bcopstein.ExercicioRefatoracaoBanco;
+
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -15,20 +16,20 @@ public class App extends Application {
 	
     @Override
     public void start(Stage primaryStage) {
-       // TelaEstatistica test = new TelaEstatistica(primaryStage);
-       // Scene scene = test.getTelaOperacoes();
-       // test.getTelaOperacoes();
-    	persistencia = new Persistencia();
+        persistencia = Persistencia.getInstance();
         contas = persistencia.loadContas();    	
     	operacoes = persistencia.loadOperacoes();
     	
     	primaryStage.setTitle("$$ Banco NOSSA GRANA $$");
 
-    	telaEntrada = new TelaEntrada(primaryStage, contas, operacoes); 
+        telaEntrada = new TelaEntrada(primaryStage, contas, operacoes);
 
         primaryStage.setScene(telaEntrada.getTelaEntrada());
-       // primaryStage.setScene(test.getTelaOperacoes());
         primaryStage.show();
+        primaryStage.sizeToScene(); // added
+        primaryStage.setMinWidth(primaryStage.getWidth());
+        primaryStage.setMinHeight(primaryStage.getHeight());
+
     }
     
     @Override
@@ -36,7 +37,7 @@ public class App extends Application {
         persistencia.saveContas(contas.values());
         persistencia.saveOperacoes(operacoes);
     }
-    
+
     public static void main(String[] args) {
         launch(args);
     }

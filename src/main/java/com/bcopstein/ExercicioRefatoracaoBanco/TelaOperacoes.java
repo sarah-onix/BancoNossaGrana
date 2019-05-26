@@ -1,4 +1,5 @@
 package com.bcopstein.ExercicioRefatoracaoBanco;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -13,7 +14,8 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-import java.util.GregorianCalendar;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,9 +23,10 @@ public class TelaOperacoes {
 	private Stage mainStage; 
 	private Scene cenaEntrada;
 	private Scene cenaOperacoes;
-	private Scene cenaEstatistica;
 	private List<Operacao> operacoes;
-	private ObservableList<Operacao> operacoesConta;
+	private List<Operacao> operacoesConta;
+	private ObservableList<Operacao> ultimasOperacoes;
+	private ListView<Operacao> extrato;
 
 	private Conta conta; 
 
@@ -61,16 +64,17 @@ public class TelaOperacoes {
         Label tit = new Label("Ultimos movimentos");
         grid.add(tit,0,3);
 
-        // Seleciona apenas o extrato da conta atual
-        operacoesConta = 
+		update();
+
+        /*operacoesConta =
         		FXCollections.observableArrayList(
         				operacoes
         				.stream()
         				.filter(op -> op.getNumeroConta() == this.conta.getNumero())
         				.collect(Collectors.toList())
-        				);
-        
-        ListView<Operacao> extrato = new ListView<>(operacoesConta);
+        				);*/
+
+		extrato = new ListView<>(ultimasOperacoes);
         extrato.setPrefHeight(140);
         grid.add(extrato, 0, 4);
 
@@ -109,14 +113,13 @@ public class TelaOperacoes {
         		  throw new NumberFormatException("Valor invalido");
         	  }
         	  conta.deposito(valor);
-        	  GregorianCalendar date = new GregorianCalendar();
         	  Operacao op = new Operacao(
-        			  date.get(GregorianCalendar.DAY_OF_MONTH),
-        			  date.get(GregorianCalendar.MONTH+1),
-        			  date.get(GregorianCalendar.YEAR),
-        			  date.get(GregorianCalendar.HOUR),
-        			  date.get(GregorianCalendar.MINUTE),
-        			  date.get(GregorianCalendar.SECOND),
+					  (Calendar.getInstance().get(Calendar.DAY_OF_MONTH)),
+					  (Calendar.getInstance().get(Calendar.MONTH) + 1),
+					  (Calendar.getInstance().get(Calendar.YEAR)),
+					  (Calendar.getInstance().get(Calendar.HOUR)),
+					  (Calendar.getInstance().get(Calendar.MINUTE)),
+					  (Calendar.getInstance().get(Calendar.SECOND)),
         			  conta.getNumero(),
         			  conta.getStatus(),
         			  valor,
@@ -124,6 +127,8 @@ public class TelaOperacoes {
               operacoes.add(op);        	  
         	  tfSaldo.setText(""+conta.getSaldo());
         	  operacoesConta.add(op);
+				update();
+				extrato.setItems(ultimasOperacoes);
         	}catch(NumberFormatException ex) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Valor inválido !!");
@@ -141,14 +146,13 @@ public class TelaOperacoes {
           		  throw new NumberFormatException("Saldo insuficiente");
           	  }
           	  conta.retirada(valor);
-        	  GregorianCalendar date = new GregorianCalendar();
         	  Operacao op = new Operacao(
-        			  date.get(GregorianCalendar.DAY_OF_MONTH),
-        			  date.get(GregorianCalendar.MONTH+1),
-        			  date.get(GregorianCalendar.YEAR),
-        			  date.get(GregorianCalendar.HOUR),
-        			  date.get(GregorianCalendar.MINUTE),
-        			  date.get(GregorianCalendar.SECOND),
+					  (Calendar.getInstance().get(Calendar.DAY_OF_MONTH)),
+					  (Calendar.getInstance().get(Calendar.MONTH) + 1),
+					  (Calendar.getInstance().get(Calendar.YEAR)),
+					  (Calendar.getInstance().get(Calendar.HOUR)),
+					  (Calendar.getInstance().get(Calendar.MINUTE)),
+					  (Calendar.getInstance().get(Calendar.SECOND)),
         			  conta.getNumero(),
         			  conta.getStatus(),
         			  valor,
@@ -156,7 +160,9 @@ public class TelaOperacoes {
               operacoes.add(op);        	  
         	  tfSaldo.setText(""+conta.getSaldo());
         	  operacoesConta.add(op);
-          	  tfSaldo.setText(""+conta.getSaldo());
+				update();
+				extrato.setItems(ultimasOperacoes);
+				tfSaldo.setText("" + conta.getSaldo());
           	}catch(NumberFormatException ex) {
   				Alert alert = new Alert(AlertType.WARNING);
   				alert.setTitle("Valor inválido !!");
@@ -168,7 +174,10 @@ public class TelaOperacoes {
         });
 
         btnEstatistica.setOnAction(e->{
-        	mainStage.setScene(cenaEstatistica);
+			TelaEstatistica toper = new TelaEstatistica(mainStage,cenaOperacoes,conta,operacoesConta);
+			Scene scene = toper.getTelaEstatistica();
+			mainStage.setScene(scene);
+
         });
 
         btnVoltar.setOnAction(e->{
@@ -177,6 +186,22 @@ public class TelaOperacoes {
 
         cenaOperacoes = new Scene(grid);
         return cenaOperacoes;
+	}
+
+	public void update() {
+		Persistencia.getInstance().saveOperacoes(operacoes);
+		// WIll be replaced to another location later
+		// Seleciona apenas o extrato da conta atual
+		operacoesConta =
+				new ArrayList(
+						operacoes
+								.stream()
+								.filter(op -> op.getNumeroConta() == this.conta.getNumero())
+								.collect(Collectors.toList())
+				);
+
+		// This will stay here
+		ultimasOperacoes = FXCollections.observableArrayList(operacoesConta);
 	}
 
 }
