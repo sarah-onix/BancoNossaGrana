@@ -27,6 +27,10 @@ public class TelaOperacoes {
 	private List<Operacao> operacoesConta;
 	private ObservableList<Operacao> ultimasOperacoes;
 	private ListView<Operacao> extrato;
+	private Label cat;
+	private Label lim;
+	private String categoria;
+	private String limRetDiaria;
 
 	private Conta conta; 
 
@@ -52,13 +56,13 @@ public class TelaOperacoes {
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(scenetitle, 0, 0, 2, 1);
         
-        String categoria = "Categoria: "+conta.getStrStatus();
-        String limRetDiaria = "Limite retirada diaria: "+conta.getLimRetiradaDiaria();
+        categoria = "Categoria: "+conta.getStrStatus();
+        limRetDiaria = "Limite retirada diaria: "+conta.getLimRetiradaDiaria();
         
-        Label cat = new Label(categoria);
+        cat = new Label(categoria);
         grid.add(cat, 0, 1);
 
-        Label lim = new Label(limRetDiaria);
+        lim = new Label(limRetDiaria);
         grid.add(lim, 0, 2);
         
         Label tit = new Label("Ultimos movimentos");
@@ -202,6 +206,10 @@ public class TelaOperacoes {
 
 		// This will stay here
 		ultimasOperacoes = FXCollections.observableArrayList(operacoesConta);
+		categoria = "Categoria: "+conta.getStrStatus();
+		cat.setText(categoria);
+		limRetDiaria = "Limite retirada diaria: "+conta.getLimRetiradaDiaria();
+		lim.setText(limRetDiaria);
 	}
 
 }
