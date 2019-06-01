@@ -1,12 +1,13 @@
 package com.bcopstein.ExercicioRefatoracaoBanco;
+
 public class Conta {
-	public final int SILVER = 0;
-	public final int GOLD = 1;
-	public final int PLATINUM = 2;
-	public final int LIM_SILVER_GOLD = 50000;
-	public final int LIM_GOLD_PLATINUM = 200000;
-	public final int LIM_PLATINUM_GOLD = 100000;
-	public final int LIM_GOLD_SILVER = 25000;
+	private final int SILVER = 0;
+	private final int GOLD = 1;
+	private final int PLATINUM = 2;
+	private final int LIM_SILVER_GOLD = 50000;
+	private final int LIM_GOLD_PLATINUM = 200000;
+	private final int LIM_PLATINUM_GOLD = 100000;
+	private final int LIM_GOLD_SILVER = 25000;
 
 	private int numero;
 	private String correntista;
@@ -26,7 +27,7 @@ public class Conta {
 		saldo = umSaldo;
 		status = umStatus;
 	}
-	
+
 	public double getSaldo() {
 		return saldo;
 	}
@@ -94,6 +95,16 @@ public class Conta {
 			}
 		}
 	}
+
+/* substituir depois
+	public double getValorTotalCreditosNoMes(int monthValue, int yearValue){
+		double totalCreditosDoMes = 0;
+		for (Operacao x : getCreditosDoMes(monthValue, yearValue)) {
+			totalCreditosDoMes += x.getValorOperacao();
+		}
+		return totalCreditosDoMes;
+	}
+	*/
 
 	@Override
 	public String toString() {

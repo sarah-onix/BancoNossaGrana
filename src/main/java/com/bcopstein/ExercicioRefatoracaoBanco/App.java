@@ -3,26 +3,19 @@ package com.bcopstein.ExercicioRefatoracaoBanco;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-import java.util.List;
-import java.util.Map;
-
 
 public class App extends Application {
-	private Persistencia persistencia;
-	private Map<Integer,Conta> contas;
-	private List<Operacao> operacoes;
-	
+    private static final Persistencia PERSISTENCIA = Persistencia.getInstance();
 	private TelaEntrada telaEntrada;
 	
     @Override
     public void start(Stage primaryStage) {
-        persistencia = Persistencia.getInstance();
-        contas = persistencia.loadContas();    	
-    	operacoes = persistencia.loadOperacoes();
-    	
+        Contas.initialize(PERSISTENCIA.loadContas());
+        Operacoes.initialize(PERSISTENCIA.loadOperacoes());
+
     	primaryStage.setTitle("$$ Banco NOSSA GRANA $$");
 
-        telaEntrada = new TelaEntrada(primaryStage, contas, operacoes);
+        telaEntrada = new TelaEntrada(primaryStage);
 
         primaryStage.setScene(telaEntrada.getTelaEntrada());
         primaryStage.show();
@@ -34,8 +27,10 @@ public class App extends Application {
     
     @Override
     public void stop() {
-        persistencia.saveContas(contas.values());
-        persistencia.saveOperacoes(operacoes);
+        // Persistir os dados daqui e usar método que retorna as contas e operacoes?
+        // Ou Adicionar + 1 dependencia de Persistencia para Contas e Operacoes e aumentar o numeros de funcoes dessas classes?
+        PERSISTENCIA.saveContas(Contas.getInstance().getAllContas());
+        PERSISTENCIA.saveOperacoes(Operacoes.getInstance().getOperacoes());
     }
 
     public static void main(String[] args) {

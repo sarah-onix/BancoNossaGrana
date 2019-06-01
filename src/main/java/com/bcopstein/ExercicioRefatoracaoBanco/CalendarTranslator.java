@@ -12,7 +12,6 @@ public class CalendarTranslator {
         switch (x) {
             case 1:
                 return "Janeiro";
-
             case 2:
                 return "Fevereiro";
             case 3:

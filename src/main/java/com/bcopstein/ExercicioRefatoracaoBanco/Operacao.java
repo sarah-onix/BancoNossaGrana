@@ -1,4 +1,5 @@
 package com.bcopstein.ExercicioRefatoracaoBanco;
+
 public class Operacao {
 	public final int CREDITO = 0;
 	public final int DEBITO = 1;
@@ -78,7 +79,7 @@ public class Operacao {
 	public String getDataHora() {
 		return String.format("%02d", dia) + "/" + String.format("%02d", mes) + "/" + Integer.toString(ano) + " " + String.format("%02d", hora) + ":" + String.format("%02d", minuto);
 	}
-    
+
 	@Override
 	public String toString() {
 		String tipo = "<C>";

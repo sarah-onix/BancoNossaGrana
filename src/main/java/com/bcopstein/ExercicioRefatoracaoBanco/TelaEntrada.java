@@ -1,7 +1,4 @@
 package com.bcopstein.ExercicioRefatoracaoBanco;
-import java.util.List;
-import java.util.Map;
-
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -21,17 +18,14 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class TelaEntrada {
-	private Stage mainStage; 
-	private Scene cenaEntrada; 
-	private Map<Integer, Conta> contas; 
-	private List<Operacao> operacoes; 
+	private Stage mainStage;
+	private static final Contas CONTAS = Contas.getInstance();
+	private Scene cenaEntrada;
 
 	private TextField tfContaCorrente;
 
-	public TelaEntrada(Stage anStage, Map<Integer, Conta> lstContas, List<Operacao> operacoes) {
+	public TelaEntrada(Stage anStage) {
 		mainStage = anStage;
-		contas = lstContas;
-		this.operacoes = operacoes;
 	}
 
 	public Scene getTelaEntrada() {
@@ -40,7 +34,7 @@ public class TelaEntrada {
 		grid.setHgap(10);
 		grid.setVgap(10);
 		grid.setPadding(new Insets(25, 25, 25, 25));
-		// grid.setGridLinesVisible(true);
+		//grid.setGridLinesVisible(true);
 
 		Text scenetitle = new Text("Bem vindo ao Banco Nossa Grana");
 		scenetitle.setId("welcome-text");
@@ -73,11 +67,10 @@ public class TelaEntrada {
 		btnIn.setOnAction(e -> {
 			try {
 				Integer nroConta = Integer.parseInt(tfContaCorrente.getText());
-				Conta conta = contas.get(nroConta);
-				if (conta == null) {
+				if (!CONTAS.contaExists(nroConta)) {
 					throw new NumberFormatException("Conta invalida");
 				}
-				TelaOperacoes toper = new TelaOperacoes(mainStage, cenaEntrada,conta,operacoes);
+				TelaOperacoes toper = new TelaOperacoes(mainStage, cenaEntrada, nroConta);
 				Scene scene = toper.getTelaOperacoes();
 				mainStage.setScene(scene);
 			} catch (NumberFormatException ex) {
