@@ -56,8 +56,8 @@ public class Conta {
 	
 	public double getLimRetiradaDiaria() {
 		switch(status) {
-		case 0:  return 5000.0;
-		case 1:  return 50000.0;
+		case 0:  return 10000.0;
+		case 1:  return 100000.0;
 		case 2:  return 500000.0;
 		default: return 0.0;
 		}
@@ -66,9 +66,11 @@ public class Conta {
 	public void deposito(double valor) {
 		if (status == SILVER) {
 			saldo += valor;
-			if (saldo >= LIM_SILVER_GOLD) {
+			if (saldo >= LIM_SILVER_GOLD)
 				status = GOLD;
-			}
+			else if(saldo >= LIM_GOLD_PLATINUM) 
+				status = PLATINUM;
+
 		} else if (status == GOLD) {
 			saldo += valor * 1.01;
 			if (saldo >= LIM_GOLD_PLATINUM) {
@@ -80,9 +82,30 @@ public class Conta {
 	}
 
 	public void retirada(double valor) {
-		if (saldo - valor < 0.0) {
+		if (saldo - valor < 0.0)
 			return;
-		} else {
+		else
+		{
+			if(valor > getLimRetiradaDiaria()) //Não sei como saber quando muda o dia
+			{
+				return;	
+			}
+			else
+			{
+				saldo -= valor;
+				if(status == GOLD && saldo < LIM_GOLD_SILVER)
+					status = SILVER;
+				else if(status == PLATINUM)
+				{
+					if(saldo < LIM_GOLD_PLATINUM)
+						status = GOLD;
+					else if(saldo < LIM_GOLD_SILVER)
+						status = SILVER;
+				}
+			}
+
+		}
+			/*else {
 			saldo = saldo - valor;
 			if (status == PLATINUM) {
 				if (saldo < LIM_PLATINUM_GOLD) {
@@ -93,7 +116,7 @@ public class Conta {
 					status = SILVER;
 				}
 			}
-		}
+		}*/
 	}
 
 /* substituir depois
