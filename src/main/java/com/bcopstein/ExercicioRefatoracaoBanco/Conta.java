@@ -97,7 +97,7 @@ public class Conta {
 					status = SILVER;
 				else if(status == PLATINUM)
 				{
-					if(saldo < LIM_GOLD_PLATINUM)
+					if(saldo < LIM_PLATINUM_GOLD)
 						status = GOLD;
 					else if(saldo < LIM_GOLD_SILVER)
 						status = SILVER;
