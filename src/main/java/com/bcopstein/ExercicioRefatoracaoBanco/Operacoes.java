@@ -78,4 +78,14 @@ public class Operacoes {
         );
     }
 
+    public List<Operacao> getOperacoesDia(int numConta)
+    {
+        return new ArrayList(
+        operacoes.stream()
+            .filter(op -> op.getNumeroConta() == numConta)
+            .filter(op -> op.getMes() == Calendar.getInstance().get(Calendar.MONTH))
+            .filter(op -> op.getDia() == Calendar.getInstance().get(Calendar.DAY_OF_MONTH))
+            .collect(Collectors.toList()));
+    }
+
 }

@@ -139,7 +139,12 @@ public class TelaOperacoes {
   				alert.setContentText("Valor inválido para operacao de débito!");
 
   				alert.showAndWait();
-          	}        	
+			  }catch(IllegalArgumentException argu)
+			  {
+				  Alert alert = new Alert(AlertType.WARNING);
+				  alert.setTitle(argu.getMessage());
+				  alert.setHeaderText(null);
+			  }        	
         });
 
         btnEstatistica.setOnAction(e->{

@@ -76,7 +76,7 @@ public class Contas {
 
     public int retirada(int numeroConta, double valor) {
         // tratamento de exceptions aqui ou a partir do return
-        contas.get(numeroConta).deposito(valor);
+        contas.get(numeroConta).retirada(valor);
         Operacoes.getInstance().createRetirada(numeroConta, valor, contas.get(numeroConta).getStatus());
         return 1; // return sucess; evaluate later
     }

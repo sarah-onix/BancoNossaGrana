@@ -1,5 +1,7 @@
 package com.bcopstein.ExercicioRefatoracaoBanco;
 
+import java.util.ArrayList;
+
 public class Conta {
 	private final int SILVER = 0;
 	private final int GOLD = 1;
@@ -86,9 +88,26 @@ public class Conta {
 			return;
 		else
 		{
-			if(valor > getLimRetiradaDiaria()) //Não sei como saber quando muda o dia
+			//if(valor > getLimRetiradaDiaria()) //Não sei como saber quando muda o dia
+			ArrayList<Operacao> operacoesDia = (ArrayList<Operacao>) Operacoes.getInstance().getOperacoesDia(numero);
+			double totalDia = 0;
+			for( Operacao o : operacoesDia)
 			{
-				return;	
+				if(o.getTipoOperacao() == 1) //1 é o código de oprração de débito
+					totalDia += o.getValorOperacao();
+			}
+			totalDia += valor;
+
+			if(totalDia > getLimRetiradaDiaria())
+			{
+				System.out.println("Atingiu o limite de saques diário");
+				throw new IllegalArgumentException("Atingiu o limite de saques diário");
+				
+			}
+			else if(valor > saldo)
+			{
+				System.out.println("Saldo insuficiente");
+				throw new IllegalArgumentException("Saldo insuficiente");
 			}
 			else
 			{
