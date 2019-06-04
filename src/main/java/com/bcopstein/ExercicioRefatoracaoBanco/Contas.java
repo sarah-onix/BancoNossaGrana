@@ -23,6 +23,10 @@ public class Contas {
         }
     }
 
+    public static void reset() {
+        INSTANCE = null;
+    }
+
     public static Contas getInstance() {
         if (INSTANCE == null) {
             throw new ExceptionInInitializerError("Contas was never initialized");
@@ -71,10 +75,9 @@ public class Contas {
 
 
     public int retirada(int numeroConta, double valor) {
-        Conta conta = contas.get(numeroConta);
         // tratamento de exceptions aqui ou a partir do return
-        conta.deposito(valor);
-        Operacoes.getInstance().createRetirada(numeroConta, valor, conta.getStatus());
+        contas.get(numeroConta).deposito(valor);
+        Operacoes.getInstance().createRetirada(numeroConta, valor, contas.get(numeroConta).getStatus());
         return 1; // return sucess; evaluate later
     }
 

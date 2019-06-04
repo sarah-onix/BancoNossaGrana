@@ -22,6 +22,8 @@ public class Operacoes {
         }
     }
 
+    // stop method?
+
     public static Operacoes getInstance() {
         if (INSTANCE == null) {
             throw new ExceptionInInitializerError("Operacoes was never initialized");
@@ -45,6 +47,8 @@ public class Operacoes {
                 statusConta,
                 valor,
                 1);
+
+
         operacoes.add(op);
     }
 
@@ -66,6 +70,7 @@ public class Operacoes {
 
     public List<Operacao> getOperacoesDaConta(int numeroConta) {
         return new ArrayList(
+
                 operacoes
                         .stream()
                         .filter(op -> op.getNumeroConta() == numeroConta)
