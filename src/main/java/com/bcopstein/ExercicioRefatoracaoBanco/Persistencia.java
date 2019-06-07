@@ -27,7 +27,7 @@ public class Persistencia {
     	
         String currDir = Paths.get("").toAbsolutePath().toString();
         String nameComplete = currDir+File.separator+NomeBDContas;
-        //System.out.println(nameComplete);
+        //System.out.println(nameComplete);loadOperacoes
         Path path2 = Paths.get(nameComplete); 
         try (Scanner sc = new Scanner(Files.newBufferedReader(path2, Charset.defaultCharset()))){ 
            sc.useDelimiter("[;\n]"); // separadores: ; e nova linha 

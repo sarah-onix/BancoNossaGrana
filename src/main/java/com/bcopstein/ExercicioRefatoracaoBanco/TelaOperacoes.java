@@ -1,5 +1,8 @@
 package com.bcopstein.ExercicioRefatoracaoBanco;
 
+import com.bcopstein.ExercicioRefatoracaoBanco.ProjectExceptions.AccountWithdrawalLimitExceededException;
+import com.bcopstein.ExercicioRefatoracaoBanco.ProjectExceptions.InvalidAccountException;
+import com.bcopstein.ExercicioRefatoracaoBanco.ProjectExceptions.NotEnoughFundsException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -18,18 +21,15 @@ public class TelaOperacoes {
 	private Stage mainStage; 
 	private Scene cenaEntrada;
 	private Scene cenaOperacoes;
-	private ObservableList<Operacao> ultimasOperacoes;
 	private ListView<Operacao> extrato;
 	private Label cat;
 	private Label lim;
 	private String categoria;
 	private String limRetDiaria;
-
-	private static final Contas CONTAS = Contas.getInstance();
-
 	private TextField tfValorOperacao;
 	private TextField tfSaldo;
 	private int numeroConta;
+	private ObservableList<Operacao> ultimasOperacoes;
 
 
 	public TelaOperacoes(Stage mainStage, Scene telaEntrada, int numeroConta) {                                                                                    // conta
@@ -45,13 +45,13 @@ public class TelaOperacoes {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
-		String dadosCorr = numeroConta + " : " + CONTAS.getCorrentista(numeroConta);
+		String dadosCorr = numeroConta + " : " + BancoFacade.getInstance().getCorrentista(numeroConta);
         Text scenetitle = new Text(dadosCorr);
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(scenetitle, 0, 0, 2, 1);
 
-		categoria = "Categoria: " + CONTAS.getStrStatus(numeroConta);
-		limRetDiaria = "Limite retirada diaria: " + CONTAS.getLimRetiradaDiaria(numeroConta);
+		categoria = "Categoria: " + BancoFacade.getInstance().getStrStatus(numeroConta);
+		limRetDiaria = "Limite retirada diaria: " + BancoFacade.getInstance().getLimRetiradaDiaria(numeroConta);
 
         cat = new Label(categoria);
         grid.add(cat, 0, 1);
@@ -64,13 +64,13 @@ public class TelaOperacoes {
 
 		update();
 
-		extrato = new ListView<>(ultimasOperacoes);
+		extrato = new ListView<Operacao>(ultimasOperacoes);
         extrato.setPrefHeight(140);
         grid.add(extrato, 0, 4);
 
         tfSaldo = new TextField();
         tfSaldo.setDisable(true);
-		tfSaldo.setText("" + CONTAS.getSaldo(numeroConta));
+		tfSaldo.setText("" + BancoFacade.getInstance().getSaldo(numeroConta));
         HBox valSaldo = new HBox(20);        
         valSaldo.setAlignment(Pos.BOTTOM_LEFT);
         valSaldo.getChildren().add(new Label("Saldo"));
@@ -99,17 +99,14 @@ public class TelaOperacoes {
         btnCredito.setOnAction(e->{
         	try {
         	  double valor = Integer.parseInt(tfValorOperacao.getText());
-        	  if (valor < 0.0) {
-        		  throw new NumberFormatException("Valor invalido");
-        	  }
-				// evaluate
-				CONTAS.deposito(numeroConta, valor);
+				if (Validations.isDepositValid(numeroConta, valor)) {
 
-				tfSaldo.setText("" + CONTAS.getSaldo(numeroConta));
-				// evaluate all
-				update();
-				extrato.setItems(ultimasOperacoes);
+					BancoFacade.getInstance().deposito(numeroConta, valor);
+					tfSaldo.setText("" + BancoFacade.getInstance().getSaldo(numeroConta));
+					update();
+					extrato.setItems(ultimasOperacoes);
 
+				}
         	}catch(NumberFormatException ex) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Valor inválido !!");
@@ -117,30 +114,46 @@ public class TelaOperacoes {
 				alert.setContentText("Valor inválido para operacao de crédito!!");
 
 				alert.showAndWait();
-        	}        	
-        });
+			} catch (InvalidAccountException ex) {
+				ex.printStackTrace();
+			}
+		});
         
         btnDebito.setOnAction(e->{
         	try {
           	  double valor = Integer.parseInt(tfValorOperacao.getText());
-				if (valor < 0.0 || valor > CONTAS.getSaldo(numeroConta)) {
-          		  throw new NumberFormatException("Saldo insuficiente");
+				if (Validations.isWithdrawalValid(numeroConta, valor)) {
+					BancoFacade.getInstance().retirada(numeroConta, valor);
+					tfSaldo.setText("" + BancoFacade.getInstance().getSaldo(numeroConta));
+					update();
+					extrato.setItems(ultimasOperacoes);
+					tfSaldo.setText("" + BancoFacade.getInstance().getSaldo(numeroConta));
           	  }
-				CONTAS.retirada(numeroConta, valor);
-				tfSaldo.setText("" + CONTAS.getSaldo(numeroConta));
-
-				update();
-				extrato.setItems(ultimasOperacoes);
-				tfSaldo.setText("" + CONTAS.getSaldo(numeroConta));
-          	}catch(NumberFormatException ex) {
+			} catch (AccountWithdrawalLimitExceededException limEx) {
   				Alert alert = new Alert(AlertType.WARNING);
-  				alert.setTitle("Valor inválido !!");
+				alert.setTitle("Limite excedido !!");
   				alert.setHeaderText(null);
-  				alert.setContentText("Valor inválido para operacao de débito!");
+				alert.setContentText("O valor do saque excede o máximo do seu limite diário!");
 
   				alert.showAndWait();
-          	}        	
-        });
+			} catch (NotEnoughFundsException noFundsEx) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Saldo Insuficiente !!");
+				alert.setHeaderText(null);
+				alert.setContentText("Não há saldo suficiente para sacar esse valor!");
+
+				alert.showAndWait();
+			} catch (NumberFormatException nfEx) {
+				Alert alert = new Alert(AlertType.WARNING);
+				alert.setTitle("Valor inválido !!");
+				alert.setHeaderText(null);
+				alert.setContentText("Valor inválido para operacao de débito!");
+
+				alert.showAndWait();
+			} catch (InvalidAccountException ex) {
+				ex.printStackTrace();
+			}
+		});
 
         btnEstatistica.setOnAction(e->{
 			TelaEstatistica toper = new TelaEstatistica(mainStage, cenaOperacoes, numeroConta);
@@ -158,16 +171,11 @@ public class TelaOperacoes {
 	}
 
 	public void update() {
-		//Persistencia.getInstance().saveOperacoes(operacoes);
-		// WIll be replaced to another location later
-		// Seleciona apenas o extrato da conta atual
-
-
 		// This will stay here
-		ultimasOperacoes = FXCollections.observableArrayList(Operacoes.getInstance().getOperacoesDaConta(numeroConta));
-		categoria = "Categoria: " + CONTAS.getStrStatus(numeroConta);
+		ultimasOperacoes = FXCollections.observableArrayList(BancoFacade.getInstance().getOperacoesDaConta(numeroConta));
+		categoria = "Categoria: " + BancoFacade.getInstance().getStrStatus(numeroConta);
 		cat.setText(categoria);
-		limRetDiaria = "Limite retirada diaria: " + CONTAS.getLimRetiradaDiaria(numeroConta);
+		limRetDiaria = "Limite retirada diaria: " + BancoFacade.getInstance().getLimRetiradaDiaria(numeroConta);
 		lim.setText(limRetDiaria);
 	}
 

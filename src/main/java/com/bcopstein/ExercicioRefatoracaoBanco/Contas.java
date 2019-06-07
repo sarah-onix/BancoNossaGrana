@@ -1,41 +1,30 @@
 package com.bcopstein.ExercicioRefatoracaoBanco;
 
+import javax.management.InstanceAlreadyExistsException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Contas {
 
-    private static Contas INSTANCE;
     private Map<Integer, Conta> contas;
 
-    private Contas(Map<Integer, Conta> contas) {
-        this.contas = contas;
-    }
+    private static boolean alreadyInstantiated;
 
-    public static void initialize(Map<Integer, Conta> contas) {
-        if (INSTANCE == null) {
-            INSTANCE = new Contas(contas);
-        } else {
-            throw new ExceptionInInitializerError("Already initialized");
+    private Operacoes operacoes;       // dependencias
+
+    public Contas(Operacoes operacoes) throws InstanceAlreadyExistsException {
+        if (alreadyInstantiated == true) {
+            throw new InstanceAlreadyExistsException();
         }
+        alreadyInstantiated = true;
+        contas = Persistencia.getInstance().loadContas();
+        this.operacoes = operacoes;
     }
 
-    public static void reset() {
-        INSTANCE = null;
-    }
-
-    public static Contas getInstance() {
-        if (INSTANCE == null) {
-            throw new ExceptionInInitializerError("Contas was never initialized");
-        }
-        return INSTANCE;
-    }
-
-    public Collection<Conta> getAllContas() {
-        return contas.values();
+    public void save() {
+        Persistencia.getInstance().saveContas(contas.values());
     }
 
     public boolean contaExists(int nroConta) {
@@ -46,39 +35,25 @@ public class Contas {
     }
 
     public String getCorrentista(int nroConta) {
-        if (!contas.containsKey(nroConta)) {
-            throw new NullPointerException("Correntista inexistente");
-        }
         return contas.get(nroConta).getCorrentista();
     }
 
     public String getStrStatus(int nroConta) {
-        if (!contas.containsKey(nroConta)) {
-            throw new NullPointerException("Correntista inexistente");
-        }
         return contas.get(nroConta).getStrStatus();
     }
 
     public double getLimRetiradaDiaria(int nroConta) {
-        if (!contas.containsKey(nroConta)) {
-            throw new NullPointerException("Correntista inexistente");
-        }
         return contas.get(nroConta).getLimRetiradaDiaria();
     }
 
     public double getSaldo(int nroConta) {
-        if (!contas.containsKey(nroConta)) {
-            throw new NullPointerException("Correntista inexistente");
-        }
         return contas.get(nroConta).getSaldo();
     }
 
 
-    public int retirada(int numeroConta, double valor) {
-        // tratamento de exceptions aqui ou a partir do return
+    public void retirada(int numeroConta, double valor) {
         contas.get(numeroConta).deposito(valor);
-        Operacoes.getInstance().createRetirada(numeroConta, valor, contas.get(numeroConta).getStatus());
-        return 1; // return sucess; evaluate later
+        operacoes.createRetirada(numeroConta, valor, contas.get(numeroConta).getStatus());
     }
 
     public Conta getConta(int numeroConta) {
@@ -88,12 +63,12 @@ public class Contas {
     public void deposito(int numeroConta, double valor) {
         Conta conta = contas.get(numeroConta);
         conta.deposito(valor);
-        Operacoes.getInstance().createDeposito(numeroConta, valor, conta.getStatus());
+        operacoes.createDeposito(numeroConta, valor, conta.getStatus());
     }
 
     public List<Operacao> getOperacoesNoMes(int numeroConta, int monthValue, int yearValue) {
         return new ArrayList<>(
-                Operacoes.getInstance().getOperacoesDaConta(numeroConta)
+                operacoes.getOperacoesDaConta(numeroConta)
                         .stream()
                         .filter(op -> op.getAno() == yearValue)
                         .filter(op -> op.getMes() == monthValue)
@@ -139,7 +114,7 @@ public class Contas {
         boolean over = false;
         List<Operacao> operacoesBeforeYear =
                 new ArrayList<>(
-                        Operacoes.getInstance().getOperacoesDaConta(numeroConta)
+                        operacoes.getOperacoesDaConta(numeroConta)
                                 .stream()
                                 .filter(op -> op.getAno() <= yearValue)
                                 .collect(Collectors.toList())
@@ -156,7 +131,7 @@ public class Contas {
         }
         List<Operacao> operacoesNoMesTemp =
                 new ArrayList<>(
-                        Operacoes.getInstance().getOperacoesDaConta(numeroConta)
+                        operacoes.getOperacoesDaConta(numeroConta)
                                 .stream()
                                 .filter(op -> op.getAno() == yearValue)
                                 .filter(op -> op.getMes() == monthValue)

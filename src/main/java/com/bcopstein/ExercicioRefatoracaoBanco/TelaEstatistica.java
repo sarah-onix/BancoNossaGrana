@@ -27,7 +27,6 @@ public class TelaEstatistica {
     private Label totalDeCreditosLabel;
     private Label totalDeDebitosLabel;
     private TextField saldoMedio;
-    private static final Contas CONTAS = Contas.getInstance();
     private int numeroConta;
 
     public TelaEstatistica(Stage mainStage, Scene cenaOperacoes, int numeroConta) {
@@ -68,7 +67,7 @@ public class TelaEstatistica {
         Button botaoVoltar = new Button("Voltar");
         // **********
         // shows client name
-        Label clientName = new Label(CONTAS.getCorrentista(numeroConta) + "     ");
+        Label clientName = new Label(BancoFacade.getInstance().getCorrentista(numeroConta) + "     ");
         clientName.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         // sets JavaFx data objects
         Label saldoMedioLabel = new Label("Saldo médio no periodo");
@@ -149,16 +148,16 @@ public class TelaEstatistica {
 
     private void setQuery() {
         // sets values
-        double totalCreditosNoMes = CONTAS.getValorTotalDeCreditosNoMes(numeroConta, CalendarTranslator.getMonthValue(monthSelection.getValue()), years.getValue());
-        double totalDebitosNoMes = CONTAS.getValorTotalDeDebitosNoMes(numeroConta, CalendarTranslator.getMonthValue(monthSelection.getValue()), years.getValue());
-        List<Operacao> creditosDoMes = CONTAS.getCreditosNoMes(numeroConta, CalendarTranslator.getMonthValue(monthSelection.getValue()), years.getValue());
-        List<Operacao> debitosDoMes = CONTAS.getDebitosNoMes(numeroConta, CalendarTranslator.getMonthValue(monthSelection.getValue()), years.getValue());
+        double totalCreditosNoMes = BancoFacade.getInstance().getValorTotalDeCreditosNoMes(numeroConta, CalendarTranslator.getMonthValue(monthSelection.getValue()), years.getValue());
+        double totalDebitosNoMes = BancoFacade.getInstance().getValorTotalDeDebitosNoMes(numeroConta, CalendarTranslator.getMonthValue(monthSelection.getValue()), years.getValue());
+        List<Operacao> creditosDoMes = BancoFacade.getInstance().getCreditosNoMes(numeroConta, CalendarTranslator.getMonthValue(monthSelection.getValue()), years.getValue());
+        List<Operacao> debitosDoMes = BancoFacade.getInstance().getDebitosNoMes(numeroConta, CalendarTranslator.getMonthValue(monthSelection.getValue()), years.getValue());
 
         // sets to javaFx objects
         totalDeCreditosLabel.setText("Total de créditos no periodo: $" + totalCreditosNoMes);
         totalDeDebitosLabel.setText("Total de Débitos no periodo: $" + totalDebitosNoMes);
         tableCreditos.setItems(FXCollections.observableArrayList(creditosDoMes));
         tableDebitos.setItems(FXCollections.observableArrayList(debitosDoMes));
-        saldoMedio.setText(String.format("%.2f", CONTAS.getSaldoMedioNoMes(numeroConta, CalendarTranslator.getMonthValue(monthSelection.getValue()), years.getValue())));
+        saldoMedio.setText(String.format("%.2f", BancoFacade.getInstance().getSaldoMedioNoMes(numeroConta, CalendarTranslator.getMonthValue(monthSelection.getValue()), years.getValue())));
     }
 }

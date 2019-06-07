@@ -1,38 +1,28 @@
 package com.bcopstein.ExercicioRefatoracaoBanco;
 
-import java.util.ArrayList;
+import javax.management.InstanceAlreadyExistsException;
 import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class Operacoes {
 
-    private static Operacoes INSTANCE;
     private List<Operacao> operacoes;
+    private static boolean alreadyInstantiated;
+    private double numeroConta;
 
-    private Operacoes(List<Operacao> operacoes) {
-        this.operacoes = operacoes;
-    }
-
-    public static void initialize(List<Operacao> operacoes) {
-        if (INSTANCE == null) {
-            INSTANCE = new Operacoes(operacoes);
-        } else {
-            throw new ExceptionInInitializerError("Already initialized");
+    public Operacoes() throws InstanceAlreadyExistsException {
+        if (alreadyInstantiated == true) {
+            throw new InstanceAlreadyExistsException();
         }
+        alreadyInstantiated = true;
+        System.out.println("here once");
+        operacoes = Persistencia.getInstance().loadOperacoes();
     }
 
-    // stop method?
-
-    public static Operacoes getInstance() {
-        if (INSTANCE == null) {
-            throw new ExceptionInInitializerError("Operacoes was never initialized");
-        }
-        return INSTANCE;
-    }
-
-    public List<Operacao> getOperacoes() {
-        return operacoes;
+    public void save() {
+        Persistencia.getInstance().saveOperacoes(operacoes);
     }
 
     public void createRetirada(int numeroConta, double valor, int statusConta) {
@@ -47,8 +37,6 @@ public class Operacoes {
                 statusConta,
                 valor,
                 1);
-
-
         operacoes.add(op);
     }
 
@@ -69,8 +57,7 @@ public class Operacoes {
 
 
     public List<Operacao> getOperacoesDaConta(int numeroConta) {
-        return new ArrayList(
-
+        return new LinkedList<>(
                 operacoes
                         .stream()
                         .filter(op -> op.getNumeroConta() == numeroConta)

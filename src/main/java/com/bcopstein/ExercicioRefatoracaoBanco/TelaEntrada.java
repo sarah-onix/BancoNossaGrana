@@ -1,4 +1,6 @@
 package com.bcopstein.ExercicioRefatoracaoBanco;
+
+import com.bcopstein.ExercicioRefatoracaoBanco.ProjectExceptions.InvalidAccountException;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -19,11 +21,8 @@ import javafx.stage.Stage;
 
 public class TelaEntrada {
 	private Stage mainStage;
-	private static final Contas CONTAS = Contas.getInstance();
 	private Scene cenaEntrada;
-
 	private TextField tfContaCorrente;
-
 	public TelaEntrada(Stage anStage) {
 		mainStage = anStage;
 	}
@@ -67,13 +66,12 @@ public class TelaEntrada {
 		btnIn.setOnAction(e -> {
 			try {
 				Integer nroConta = Integer.parseInt(tfContaCorrente.getText());
-				if (!CONTAS.contaExists(nroConta)) {
-					throw new NumberFormatException("Conta invalida");
+				if (Validations.isNumeroContaValid(nroConta)) {
+					TelaOperacoes toper = new TelaOperacoes(mainStage, cenaEntrada, nroConta);
+					Scene scene = toper.getTelaOperacoes();
+					mainStage.setScene(scene);
 				}
-				TelaOperacoes toper = new TelaOperacoes(mainStage, cenaEntrada, nroConta);
-				Scene scene = toper.getTelaOperacoes();
-				mainStage.setScene(scene);
-			} catch (NumberFormatException ex) {
+			} catch (InvalidAccountException ex) {
 				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Conta inválida !!");
 				alert.setHeaderText(null);
