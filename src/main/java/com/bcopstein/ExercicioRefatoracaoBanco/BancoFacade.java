@@ -45,12 +45,21 @@ public class BancoFacade {
         return operacoes.getOperacoesDaConta(numeroConta);
     }
 
+    public List<Operacao> getOperacoesDia(int numConta)
+    {
+        return operacoes.getOperacoesDia(numConta);
+    }
+
     public String getCorrentista(Integer numeroConta) {
         return contas.getCorrentista(numeroConta);
     }
 
     public String getStrStatus(Integer numeroConta) {
         return contas.getStrStatus(numeroConta);
+    }
+    public double getTotalRetiradaDia(int numConta)
+    {
+        return contas.getTotalRetiradaDia(numConta);
     }
 
     public double getLimRetiradaDiaria(Integer numeroConta) {
@@ -91,11 +100,6 @@ public class BancoFacade {
 
     public double getSaldoMedioNoMes(Integer numeroConta, int monthValue, Integer value) {
         return contas.getSaldoMedioNoMes(numeroConta, monthValue, value);
-    }
-
-    public double getSaqueDisponivelDoDia(int numeroConta) {
-        //return contas.getSaqueDisponivelDoDia(numeroConta); IMPLEMENT THERE! Contas class::
-        return 0;
     }
 
     public void save() {

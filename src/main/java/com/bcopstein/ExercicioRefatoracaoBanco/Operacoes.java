@@ -65,4 +65,16 @@ public class Operacoes {
         );
     }
 
+    public List<Operacao> getOperacoesDia(int numeroConta)
+    {
+        return new LinkedList<>(
+            operacoes  
+                    .stream()
+                    .filter(op -> op.getNumeroConta() == numeroConta)
+                    .filter(op -> op.getDia() == Calendar.getInstance().get(Calendar.DAY_OF_MONTH))
+                    .filter(op -> op.getMes() == Calendar.getInstance().get(Calendar.MONTH) + 1)
+                    .collect(Collectors.toList())
+        );
+    }
+
 }
