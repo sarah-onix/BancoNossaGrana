@@ -9,20 +9,27 @@ import java.util.stream.Collectors;
 public class Operacoes {
 
     private List<Operacao> operacoes;
-    private static boolean alreadyInstantiated;
-    private double numeroConta;
 
-    public Operacoes() throws InstanceAlreadyExistsException {
+    private Persistencia persistencia;
+
+    private static boolean alreadyInstantiated;
+
+    public Operacoes(Persistencia persistencia, boolean isTest) {
+        this.persistencia = persistencia;
+        operacoes = this.persistencia.loadOperacoes();
+    }
+
+    public Operacoes(Persistencia persistencia) throws InstanceAlreadyExistsException {
         if (alreadyInstantiated == true) {
             throw new InstanceAlreadyExistsException();
         }
         alreadyInstantiated = true;
-        System.out.println("here once");
-        operacoes = Persistencia.getInstance().loadOperacoes();
+        this.persistencia = persistencia;
+        operacoes = this.persistencia.loadOperacoes();
     }
 
     public void save() {
-        Persistencia.getInstance().saveOperacoes(operacoes);
+        persistencia.saveOperacoes(operacoes);
     }
 
     public void createRetirada(int numeroConta, double valor, int statusConta) {

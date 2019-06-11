@@ -16,13 +16,9 @@ public class BancoFacade {
 
     private BancoFacade() {
         try {
-            operacoes = new Operacoes();
-        } catch (InstanceAlreadyExistsException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-        try {
-            contas = new Contas(operacoes);
+            Persistencia persistencia = new Persistencia();
+            operacoes = new Operacoes(persistencia);
+            contas = new Contas(persistencia, operacoes);
         } catch (InstanceAlreadyExistsException e) {
             e.printStackTrace();
             System.exit(1);

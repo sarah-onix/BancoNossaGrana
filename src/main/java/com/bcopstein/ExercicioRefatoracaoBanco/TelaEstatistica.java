@@ -33,7 +33,6 @@ public class TelaEstatistica {
         this.mainStage = mainStage;
         this.cenaOperacoes = cenaOperacoes;
         this.numeroConta = numeroConta;
-        mainStage.sizeToScene();
     }
 
     public Scene getTelaEstatistica() {
@@ -134,7 +133,6 @@ public class TelaEstatistica {
         root.getChildren().add(grid);
         Scene cenaEstatistica = new Scene(root, 700, 600);
         // ******
-
         // behaviors
         botaoBuscar.setOnAction(e -> {
             setQuery();
@@ -152,7 +150,6 @@ public class TelaEstatistica {
         double totalDebitosNoMes = BancoFacade.getInstance().getValorTotalDeDebitosNoMes(numeroConta, CalendarTranslator.getMonthValue(monthSelection.getValue()), years.getValue());
         List<Operacao> creditosDoMes = BancoFacade.getInstance().getCreditosNoMes(numeroConta, CalendarTranslator.getMonthValue(monthSelection.getValue()), years.getValue());
         List<Operacao> debitosDoMes = BancoFacade.getInstance().getDebitosNoMes(numeroConta, CalendarTranslator.getMonthValue(monthSelection.getValue()), years.getValue());
-
         // sets to javaFx objects
         totalDeCreditosLabel.setText("Total de créditos no periodo: $" + totalCreditosNoMes);
         totalDeDebitosLabel.setText("Total de Débitos no periodo: $" + totalDebitosNoMes);

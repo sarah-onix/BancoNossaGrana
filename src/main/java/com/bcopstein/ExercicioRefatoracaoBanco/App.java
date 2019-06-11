@@ -5,7 +5,6 @@ import javafx.stage.Stage;
 
 
 public class App extends Application {
-    private static final Persistencia PERSISTENCIA = Persistencia.getInstance();
 	private TelaEntrada telaEntrada;
 
     @Override

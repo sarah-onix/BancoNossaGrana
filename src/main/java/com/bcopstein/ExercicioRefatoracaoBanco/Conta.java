@@ -12,12 +12,14 @@ public class Conta {
 	private int numero;
 	private String correntista;
 	private double saldo;
+	private double saldoInicial; // é necessário para calculo do saldo medio
 	private int status;
 
 	public Conta(int umNumero, String umNome) {
 		numero = umNumero;
 		correntista = umNome;
 		saldo = 0.0;
+		saldoInicial = 0.0;
 		status = SILVER;
 	}
 	
@@ -25,6 +27,7 @@ public class Conta {
 		numero = umNumero;
 		correntista = umNome;
 		saldo = umSaldo;
+		saldoInicial = umSaldo;
 		status = umStatus;
 	}
 
@@ -81,53 +84,31 @@ public class Conta {
 		}
 	}
 
+	// FIX!
 	public void retirada(double valor) {
 		if (saldo - valor < 0.0)
 			return;
-		else
-		{
-			if(valor > getLimRetiradaDiaria()) //Não sei como saber quando muda o dia
+		else {
+			if (valor > getLimRetiradaDiaria()) //Não sei como saber quando muda o dia
 			{
-				return;	
-			}
-			else
-			{
+				return;
+			} else {
 				saldo -= valor;
-				if(status == GOLD && saldo < LIM_GOLD_SILVER)
+				if (status == GOLD && saldo < LIM_GOLD_SILVER)
 					status = SILVER;
-				else if(status == PLATINUM)
-				{
-					if(saldo < LIM_PLATINUM_GOLD)
+				else if (status == PLATINUM) {
+					if (saldo < LIM_PLATINUM_GOLD)
 						status = GOLD;
-					else if(saldo < LIM_GOLD_SILVER)
+					else if (saldo < LIM_GOLD_SILVER)
 						status = SILVER;
 				}
 			}
-
 		}
-			/*else {
-			saldo = saldo - valor;
-			if (status == PLATINUM) {
-				if (saldo < LIM_PLATINUM_GOLD) {
-					status = GOLD;
-				}
-			} else if (status == GOLD) {
-				if (saldo < LIM_GOLD_SILVER) {
-					status = SILVER;
-				}
-			}
-		}*/
 	}
 
-/* substituir depois
-	public double getValorTotalCreditosNoMes(int monthValue, int yearValue){
-		double totalCreditosDoMes = 0;
-		for (Operacao x : getCreditosDoMes(monthValue, yearValue)) {
-			totalCreditosDoMes += x.getValorOperacao();
-		}
-		return totalCreditosDoMes;
+	public double getSaldoInicial() {
+		return saldoInicial;
 	}
-	*/
 
 	@Override
 	public String toString() {

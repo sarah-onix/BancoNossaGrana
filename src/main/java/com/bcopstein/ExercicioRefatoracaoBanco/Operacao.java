@@ -27,7 +27,6 @@ public class Operacao {
 		this.minuto = minuto;
 		this.segundo = segundo;
 		this.numeroConta = numeroConta;
-
 		this.statusConta = statusConta;
 		this.valorOperacao = valorOperacao;
 		this.tipoOperacao = tipoOperacao;

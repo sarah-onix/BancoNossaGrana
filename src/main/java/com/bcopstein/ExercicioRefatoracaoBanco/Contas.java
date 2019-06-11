@@ -12,19 +12,29 @@ public class Contas {
 
     private static boolean alreadyInstantiated;
 
-    private Operacoes operacoes;       // dependencias
+    private Operacoes operacoes;
 
-    public Contas(Operacoes operacoes) throws InstanceAlreadyExistsException {
+    private Persistencia persistencia;
+
+
+    public Contas(Persistencia persistencia, Operacoes operacoes, boolean isTest) {
+        this.persistencia = persistencia;
+        contas = this.persistencia.loadContas();
+        this.operacoes = operacoes;
+    }
+
+    public Contas(Persistencia persistencia, Operacoes operacoes) throws InstanceAlreadyExistsException {
         if (alreadyInstantiated == true) {
             throw new InstanceAlreadyExistsException();
         }
         alreadyInstantiated = true;
-        contas = Persistencia.getInstance().loadContas();
+        this.persistencia = persistencia;
+        contas = this.persistencia.loadContas();
         this.operacoes = operacoes;
     }
 
     public void save() {
-        Persistencia.getInstance().saveContas(contas.values());
+        persistencia.saveContas(contas.values());
     }
 
     public boolean contaExists(int nroConta) {
@@ -52,12 +62,8 @@ public class Contas {
 
 
     public void retirada(int numeroConta, double valor) {
-        contas.get(numeroConta).deposito(valor);
+        contas.get(numeroConta).retirada(valor);
         operacoes.createRetirada(numeroConta, valor, contas.get(numeroConta).getStatus());
-    }
-
-    public Conta getConta(int numeroConta) {
-        return contas.get(numeroConta);
     }
 
     public void deposito(int numeroConta, double valor) {
@@ -110,6 +116,10 @@ public class Contas {
         return totalCreditosDoMes;
     }
 
+
+    /*
+     * ISSUE: THIS NEEDS TO BE FIXED
+     * */
     public double getSaldoMedioNoMes(int numeroConta, int monthValue, int yearValue) {
         boolean over = false;
         List<Operacao> operacoesBeforeYear =
@@ -139,7 +149,7 @@ public class Contas {
                 );
         double saldoMedioNoMes;
         if (operacoesNoMesTemp.isEmpty()) {
-            return 0;
+            return contas.get(numeroConta).getSaldoInicial();
         } else {
             int day = 0;
             int hour = 0;

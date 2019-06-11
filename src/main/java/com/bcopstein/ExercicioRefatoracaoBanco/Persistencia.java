@@ -1,5 +1,6 @@
 package com.bcopstein.ExercicioRefatoracaoBanco;
 
+import javax.management.InstanceAlreadyExistsException;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,16 +13,19 @@ import java.util.*;
 public class Persistencia {
     private final String NomeBDContas = "BDContasBNG.txt";
     private final String NomeBDOperacoes = "BDOperBNG.txt";
-    private static final Persistencia INSTANCE = new Persistencia();
+    private boolean alreadyInstantiated;
 
-
-    private Persistencia() {
+    public Persistencia() throws InstanceAlreadyExistsException {
+        if (alreadyInstantiated == true) {
+            throw new InstanceAlreadyExistsException();
+        }
+        alreadyInstantiated = true;
     }
 
-    public static Persistencia getInstance() {
-        return INSTANCE;
+    public Persistencia(boolean isTest) {
+
     }
-    
+
     public Map<Integer,Conta> loadContas(){
     	Map<Integer,Conta> contas = new HashMap<>();
     	
