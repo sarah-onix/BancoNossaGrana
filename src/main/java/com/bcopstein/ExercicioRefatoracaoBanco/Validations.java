@@ -1,5 +1,9 @@
 package com.bcopstein.ExercicioRefatoracaoBanco;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.LinkedList;
+
 import com.bcopstein.ExercicioRefatoracaoBanco.ProjectExceptions.AccountWithdrawalLimitExceededException;
 import com.bcopstein.ExercicioRefatoracaoBanco.ProjectExceptions.InvalidAccountException;
 import com.bcopstein.ExercicioRefatoracaoBanco.ProjectExceptions.NotEnoughFundsException;
@@ -28,11 +32,17 @@ public class Validations {
         return true;
     }
 
-    public static boolean hasEnoughQuota(int numeroConta, double value) throws AccountWithdrawalLimitExceededException {
-        if (BancoFacade.getInstance().getSaqueDisponivelDoDia(numeroConta) >= value) {
-            return true;
+    public static boolean hasEnoughQuota(int numeroConta, double value) throws AccountWithdrawalLimitExceededException 
+    {
+        double totalDia = BancoFacade.getInstance().getTotalRetiradaDia(numeroConta);
+        totalDia += value;
+
+        if(totalDia > BancoFacade.getInstance().getLimRetiradaDiaria(numeroConta))
+        {
+            throw new AccountWithdrawalLimitExceededException();
         }
-        throw new AccountWithdrawalLimitExceededException();
+        return true;
+        
     }
 
     public static boolean isWithdrawalValid(int numeroConta, double value) throws AccountWithdrawalLimitExceededException, NotEnoughFundsException, NumberFormatException, InvalidAccountException {
