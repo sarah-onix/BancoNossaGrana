@@ -2,6 +2,7 @@ package com.bcopstein.ExercicioRefatoracaoBanco;
 
 import javax.management.InstanceAlreadyExistsException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -60,6 +61,17 @@ public class Contas {
         return contas.get(nroConta).getSaldo();
     }
 
+    public double getTotalRetiradaDia(int numConta)
+    {
+        LinkedList<Operacao> operacoesDia = (LinkedList<Operacao>) BancoFacade.getInstance().getOperacoesDia(numConta);
+        double totalDia = 0;
+        for( Operacao o : operacoesDia)
+        {
+            if(o.getTipoOperacao() == 1) //1 é o código de oprração de débito
+                totalDia += o.getValorOperacao();
+        }
+        return totalDia;
+    }
 
     public void retirada(int numeroConta, double valor) {
         contas.get(numeroConta).retirada(valor);
