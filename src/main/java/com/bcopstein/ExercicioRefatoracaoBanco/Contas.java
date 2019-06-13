@@ -133,7 +133,6 @@ public class Contas {
      * ISSUE: THIS NEEDS TO BE FIXED
      * */
     public double getSaldoMedioNoMes(int numeroConta, int monthValue, int yearValue) {
-        boolean over = false;
         List<Operacao> operacoesBeforeYear =
                 new ArrayList<>(
                         operacoes.getOperacoesDaConta(numeroConta)
