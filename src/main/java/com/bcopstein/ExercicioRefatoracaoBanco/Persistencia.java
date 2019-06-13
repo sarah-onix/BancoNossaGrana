@@ -44,7 +44,7 @@ public class Persistencia {
                nomeCorr = sc.next();
                saldo = Double.parseDouble(sc.next());
                status = Integer.parseInt(sc.next());
-               Conta conta = new Conta(numero,nomeCorr,saldo,status);
+               Conta conta = new Conta(numero,nomeCorr,saldo);//tirei o status pois é possivel saber com o saldo inicial
                contas.put(numero, conta);
            }
         }catch (IOException x){ 

@@ -1,129 +1,56 @@
 package com.bcopstein.ExercicioRefatoracaoBanco;
 
-import java.util.ArrayList;
-
-import javax.management.InstanceAlreadyExistsException;
-
 public class Conta {
-	private final int SILVER = 0;
-	private final int GOLD = 1;
-	private final int PLATINUM = 2;
-	private final int LIM_SILVER_GOLD = 50000;
-	private final int LIM_GOLD_PLATINUM = 200000;
-	private final int LIM_PLATINUM_GOLD = 100000;
-	private final int LIM_GOLD_SILVER = 25000;
-
-	private int numero;
-	private String correntista;
-	private double saldo;
-	private double saldoInicial; // é necessário para calculo do saldo medio
-	private int status;
+	StatusConta statusConta;
 
 	public Conta(int umNumero, String umNome) {
-		numero = umNumero;
-		correntista = umNome;
-		saldo = 0.0;
-		saldoInicial = 0.0;
-		status = SILVER;
+		statusConta = new ContaSilver(umNumero, 0.0, umNome, 0.0);
 	}
 
-	public Conta(int umNumero, String umNome, double umSaldo, int umStatus) {
-		numero = umNumero;
-		correntista = umNome;
-		saldo = umSaldo;
-		saldoInicial = umSaldo;
-		status = umStatus;
+	public Conta(int umNumero, String umNome, double umSaldo) {
+		statusConta = new ContaSilver(umNumero, 0.0, umNome, umSaldo);
+		statusConta = statusConta.deposito(umSaldo);
 	}
 
 	public double getSaldo() {
-		return saldo;
+		return statusConta.getSaldo();
 	}
 
 	public Integer getNumero() {
-		return numero;
+		return statusConta.getNumero();
 	}
 
-	public String getCorrentista() {
-		return correntista;
+	public String getCorrentista() 	{
+		return statusConta.getCorrentista();
 	}
 
-	public int getStatus() {
-		return status;
+	public int getStatus()	{
+		return statusConta.getStatus();
 	}
 
-	public String getStrStatus() {
-		switch (status) {
-		case 0:
-			return "Silver";
-		case 1:
-			return "Gold";
-		case 2:
-			return "Platinum";
-		default:
-			return "none";
-
-		}
+	public String getStrStatus() 	{
+		return statusConta.getStrStatus();
 	}
 
 	public double getLimRetiradaDiaria() {
-		switch (status) {
-		case 0:
-			return 10000.0;
-		case 1:
-			return 100000.0;
-		case 2:
-			return 500000.0;
-		default:
-			return 0.0;
-		}
+		return statusConta.getLimRetiradaDiaria();
 	}
 
 	public void deposito(double valor) {
-		if (status == SILVER) {
-			saldo += valor;
-			if (saldo >= LIM_SILVER_GOLD)
-				status = GOLD;
-			else if (saldo >= LIM_GOLD_PLATINUM)
-				status = PLATINUM;
-
-		} else if (status == GOLD) {
-			saldo += valor * 1.01;
-			if (saldo >= LIM_GOLD_PLATINUM) {
-				status = PLATINUM;
-			}
-		} else if (status == PLATINUM) {
-			saldo += valor * 1.025;
-		}
+		statusConta = statusConta.deposito(valor);
 	}
 
 	public void retirada(double valor) {
-        if (saldo - valor < 0.0)
-            return;
-        else {
-            if (valor > getLimRetiradaDiaria()) //Não sei como saber quando muda o dia
-            {
-                return;
-            } else {
-                saldo -= valor;
-                if (status == GOLD && saldo < LIM_GOLD_SILVER)
-                    status = SILVER;
-                else if (status == PLATINUM) {
-                    if (saldo < LIM_PLATINUM_GOLD)
-                        status = GOLD;
-                    else if (saldo < LIM_GOLD_SILVER)
-                        status = SILVER;
-                }
-            }
-        }
+        statusConta = statusConta.retirada(valor);
     }
 
     public double getSaldoInicial () {
-        return saldoInicial;
+        return statusConta.getSaldoInicial();
 	}
 
     @Override
     public String toString () {
-        return "Conta [numero=" + numero + ", correntista=" + correntista + ", saldo=" + saldo + ", status=" + status
+        return "Conta [numero=" + statusConta.getNumero() + ", correntista=" + statusConta.getCorrentista() + ", saldo=" + statusConta.getSaldo() + ", status=" + statusConta.getStatus()
                         + "]";
         }
 }
