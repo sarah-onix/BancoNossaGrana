@@ -38,12 +38,11 @@ public class Persistencia {
            int numero;
            String nomeCorr;
            double saldo;
-           int status;
-           while (sc.hasNext()){ 
+           while (sc.hasNext()){
                numero = Integer.parseInt(sc.next()); 
                nomeCorr = sc.next();
                saldo = Double.parseDouble(sc.next());
-               status = Integer.parseInt(sc.next());
+               sc.next();
                Conta conta = new Conta(numero,nomeCorr,saldo);//tirei o status pois é possivel saber com o saldo inicial
                contas.put(numero, conta);
            }
