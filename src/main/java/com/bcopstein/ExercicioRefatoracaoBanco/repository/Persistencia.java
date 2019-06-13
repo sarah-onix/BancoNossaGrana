@@ -1,4 +1,8 @@
-package com.bcopstein.ExercicioRefatoracaoBanco;
+package com.bcopstein.ExercicioRefatoracaoBanco.repository;
+
+import com.bcopstein.ExercicioRefatoracaoBanco.entity.Conta;
+import com.bcopstein.ExercicioRefatoracaoBanco.entity.ContasFactory;
+import com.bcopstein.ExercicioRefatoracaoBanco.entity.Operacao;
 
 import javax.management.InstanceAlreadyExistsException;
 import java.io.File;
@@ -26,7 +30,7 @@ public class Persistencia {
 
     }
 
-    public Map<Integer,Conta> loadContas(){
+    public Map<Integer, Conta> loadContas() {
     	Map<Integer,Conta> contas = new HashMap<>();
     	
         String currDir = Paths.get("").toAbsolutePath().toString();

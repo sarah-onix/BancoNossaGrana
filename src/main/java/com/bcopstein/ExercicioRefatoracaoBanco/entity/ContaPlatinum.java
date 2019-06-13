@@ -1,5 +1,5 @@
 
-package com.bcopstein.ExercicioRefatoracaoBanco;
+package com.bcopstein.ExercicioRefatoracaoBanco.entity;
 
 public class ContaPlatinum implements StatusConta
 {

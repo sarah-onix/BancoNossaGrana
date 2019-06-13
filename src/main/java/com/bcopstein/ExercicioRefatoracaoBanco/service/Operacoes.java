@@ -1,4 +1,7 @@
-package com.bcopstein.ExercicioRefatoracaoBanco;
+package com.bcopstein.ExercicioRefatoracaoBanco.service;
+
+import com.bcopstein.ExercicioRefatoracaoBanco.entity.Operacao;
+import com.bcopstein.ExercicioRefatoracaoBanco.repository.Persistencia;
 
 import javax.management.InstanceAlreadyExistsException;
 import java.util.Calendar;

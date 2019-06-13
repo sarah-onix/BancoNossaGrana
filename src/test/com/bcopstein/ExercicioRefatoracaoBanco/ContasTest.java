@@ -1,5 +1,10 @@
 package com.bcopstein.ExercicioRefatoracaoBanco;
 
+import com.bcopstein.ExercicioRefatoracaoBanco.entity.Conta;
+import com.bcopstein.ExercicioRefatoracaoBanco.entity.Operacao;
+import com.bcopstein.ExercicioRefatoracaoBanco.repository.Persistencia;
+import com.bcopstein.ExercicioRefatoracaoBanco.service.Contas;
+import com.bcopstein.ExercicioRefatoracaoBanco.service.Operacoes;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

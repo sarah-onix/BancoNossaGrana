@@ -1,5 +1,7 @@
-package com.bcopstein.ExercicioRefatoracaoBanco;
+package com.bcopstein.ExercicioRefatoracaoBanco.util;
 
+import com.bcopstein.ExercicioRefatoracaoBanco.service.BancoFacade;
+import com.bcopstein.ExercicioRefatoracaoBanco.view.TelaEntrada;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

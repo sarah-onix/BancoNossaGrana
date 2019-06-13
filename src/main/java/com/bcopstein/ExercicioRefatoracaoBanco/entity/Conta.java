@@ -1,4 +1,4 @@
-package com.bcopstein.ExercicioRefatoracaoBanco;
+package com.bcopstein.ExercicioRefatoracaoBanco.entity;
 
 public class Conta {
 	StatusConta statusConta;
@@ -7,10 +7,10 @@ public class Conta {
 		statusConta = new ContaSilver(umNumero, 0.0, umNome);
 	}
 
-	/*public Conta(int umNumero, String umNome, double umSaldo) {
+	public Conta(int umNumero, String umNome, double umSaldo) { // This constructor is dedicated to tests
 		statusConta = new ContaSilver(umNumero, umSaldo, umNome);
 		statusConta = statusConta.deposito(umSaldo);
-	}*/
+	}
 
 	public Conta(StatusConta statusConta){
 		this.statusConta = statusConta;

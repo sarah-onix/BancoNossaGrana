@@ -1,12 +1,9 @@
-package com.bcopstein.ExercicioRefatoracaoBanco;
+package com.bcopstein.ExercicioRefatoracaoBanco.util;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.LinkedList;
-
-import com.bcopstein.ExercicioRefatoracaoBanco.ProjectExceptions.AccountWithdrawalLimitExceededException;
-import com.bcopstein.ExercicioRefatoracaoBanco.ProjectExceptions.InvalidAccountException;
-import com.bcopstein.ExercicioRefatoracaoBanco.ProjectExceptions.NotEnoughFundsException;
+import com.bcopstein.ExercicioRefatoracaoBanco.service.BancoFacade;
+import com.bcopstein.ExercicioRefatoracaoBanco.util.ProjectExceptions.AccountWithdrawalLimitExceededException;
+import com.bcopstein.ExercicioRefatoracaoBanco.util.ProjectExceptions.InvalidAccountException;
+import com.bcopstein.ExercicioRefatoracaoBanco.util.ProjectExceptions.NotEnoughFundsException;
 
 public class Validations {
 

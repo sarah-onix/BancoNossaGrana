@@ -1,4 +1,6 @@
-package com.bcopstein.ExercicioRefatoracaoBanco;
+package com.bcopstein.ExercicioRefatoracaoBanco.entity;
+
+import com.bcopstein.ExercicioRefatoracaoBanco.util.Validations;
 
 public class ContasFactory {
 
