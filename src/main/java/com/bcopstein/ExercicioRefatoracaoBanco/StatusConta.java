@@ -11,6 +11,4 @@ public interface StatusConta
     double getLimRetiradaDiaria();
     StatusConta deposito(double valor);
     StatusConta retirada(double valor);
-    double getSaldoInicial();
-
 }

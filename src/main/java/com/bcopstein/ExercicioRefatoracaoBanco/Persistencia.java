@@ -43,8 +43,7 @@ public class Persistencia {
                nomeCorr = sc.next();
                saldo = Double.parseDouble(sc.next());
                sc.next();
-               Conta conta = new Conta(numero,nomeCorr,saldo);//tirei o status pois é possivel saber com o saldo inicial
-               contas.put(numero, conta);
+               contas.put(numero, ContasFactory.getConta(numero,nomeCorr,saldo));
            }
         }catch (IOException x){ 
             System.err.format("Erro de E/S: %s%n", x);
