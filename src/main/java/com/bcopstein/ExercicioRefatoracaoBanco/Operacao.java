@@ -15,7 +15,6 @@ public class Operacao {
     private double valorOperacao;
     private int tipoOperacao;
 	// Data e hora no formato DD/MM/AA HH:mm
-	private String dataHora;
     
 	public Operacao(int dia, int mes, int ano, int hora, int minuto, int segundo, int numeroConta, int statusConta,
 			double valorOperacao, int tipoOperacao) {
@@ -30,7 +29,6 @@ public class Operacao {
 		this.statusConta = statusConta;
 		this.valorOperacao = valorOperacao;
 		this.tipoOperacao = tipoOperacao;
-		this.dataHora = getDataHora();
 	}
 
 	public int getDia() {

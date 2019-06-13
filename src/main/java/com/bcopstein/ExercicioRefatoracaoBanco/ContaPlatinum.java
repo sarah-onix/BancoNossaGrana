@@ -3,7 +3,6 @@ package com.bcopstein.ExercicioRefatoracaoBanco;
 
 public class ContaPlatinum implements StatusConta
 {
-    private final int LIM_GOLD_PLATINUM = 200000;
     private final int LIM_PLATINUM_GOLD = 100000;
 	private final int LIM_GOLD_SILVER = 25000;
     private int numConta;

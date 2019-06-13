@@ -7,7 +7,6 @@ public class ContaSilver implements StatusConta
 
     private final int LIM_SILVER_GOLD = 50000;
     private final int LIM_GOLD_PLATINUM = 200000;
-    private final int LIM_GOLD_SILVER = 25000;
 
     private int numConta;
     private double saldo;

@@ -159,7 +159,6 @@ public class Contas {
                                 .filter(op -> op.getMes() == monthValue)
                                 .collect(Collectors.toList())
                 );
-        double saldoMedioNoMes;
         if (operacoesNoMesTemp.isEmpty()) {
             return contas.get(numeroConta).getSaldoInicial();
         } else {

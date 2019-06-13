@@ -1,8 +1,5 @@
 package com.bcopstein.ExercicioRefatoracaoBanco;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.LinkedList;
 
 import com.bcopstein.ExercicioRefatoracaoBanco.ProjectExceptions.AccountWithdrawalLimitExceededException;
 import com.bcopstein.ExercicioRefatoracaoBanco.ProjectExceptions.InvalidAccountException;
