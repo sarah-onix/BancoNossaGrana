@@ -129,9 +129,6 @@ public class Contas {
     }
 
 
-    /*
-     * ISSUE: THIS NEEDS TO BE FIXED
-     * */
     public double getSaldoMedioNoMes(int numeroConta, int monthValue, int yearValue) {
         boolean over = false;
         List<Operacao> operacoesBeforeYear =
@@ -141,6 +138,7 @@ public class Contas {
                                 .filter(op -> op.getAno() <= yearValue)
                                 .collect(Collectors.toList())
                 );
+
         List<Operacao> operacoesBeforeDate = new ArrayList<>();
         for (Operacao x : operacoesBeforeYear) {
             if (x.getAno() == yearValue) {
@@ -151,6 +149,7 @@ public class Contas {
                 operacoesBeforeDate.add(x);
             }
         }
+
         List<Operacao> operacoesNoMesTemp =
                 new ArrayList<>(
                         operacoes.getOperacoesDaConta(numeroConta)
@@ -159,84 +158,44 @@ public class Contas {
                                 .filter(op -> op.getMes() == monthValue)
                                 .collect(Collectors.toList())
                 );
-        double saldoMedioNoMes;
+
         if (operacoesNoMesTemp.isEmpty()) {
-            return contas.get(numeroConta).getSaldoInicial();
-        } else {
-            int day = 0;
-            int hour = 0;
-            int minute = 0;
-            int second = 0;
-            Operacao firstOp = null;
-            boolean first = true;
-            for (Operacao x : operacoesNoMesTemp) {
-                if (first) {
-                    first = false;
-                    day = x.getDia();
-                    hour = x.getHora();
-                    minute = x.getMinuto();
-                    second = x.getSegundo();
-                    firstOp = x;
-                }
-                if (x.getDia() < day) {
-                    day = x.getDia();
-                    hour = x.getHora();
-                    minute = x.getMinuto();
-                    second = x.getSegundo();
-                    firstOp = x;
-                }
-                if (x.getDia() == day) {
-                    if (x.getHora() == hour) {
-                        if (x.getMinuto() < minute) {
-                            day = x.getDia();
-                            hour = x.getHora();
-                            minute = x.getMinuto();
-                            second = x.getSegundo();
-                            firstOp = x;
-                        } else if (x.getMinuto() == minute) {
-                            if (x.getSegundo() == second) {
-                                break;
-                            } else if (x.getSegundo() < second) {
-                                day = x.getDia();
-                                hour = x.getHora();
-                                minute = x.getMinuto();
-                                second = x.getSegundo();
-                                firstOp = x;
-                            }
-                        } else if (x.getMinuto() < minute) {
-                            day = x.getDia();
-                            hour = x.getHora();
-                            minute = x.getMinuto();
-                            second = x.getSegundo();
-                            firstOp = x;
-                        }
-                    } else if (x.getHora() < hour) {
-                        day = x.getDia();
-                        hour = x.getHora();
-                        minute = x.getMinuto();
-                        second = x.getSegundo();
-                        firstOp = x;
-                    }
-                }
-            }
-            operacoesBeforeDate.add(firstOp); // now it is before inclusive
-
-            List<Double> saldosNoMes = new ArrayList<>();
-            for (Operacao x : operacoesNoMesTemp) {
-                if (x.getTipoOperacao() == 0) {
-                    saldosNoMes.add(x.getValorOperacao());
-                } else {
-                    saldosNoMes.add(-x.getValorOperacao());
-                }
-            }
-
-            double soma = 0;
-            for (Double x : saldosNoMes) {
-                soma += x;
-            }
-            return soma / 30;
+            return contas.get(numeroConta).getSaldoInicial(); // corrigir
         }
 
-    }
+            double saldoAnterior = 0;
+            for(Operacao x:operacoesBeforeDate){
+                if (x.getTipoOperacao() == 0) {
+                    saldoAnterior += x.getValorOperacao();
+                } else {
+                    saldoAnterior -= x.getValorOperacao();
+                }
+            }
+
+
+            double saldoNoMes = 0;
+            double saldoTotalDoMes = 0;
+            for(int i = 1;i<=30;i++){
+                int dia = i;
+                List<Operacao> operacoesDodia =
+                        new ArrayList<>(
+                                operacoesNoMesTemp
+                                        .stream()
+                                        .filter(op -> op.getDia() == dia)
+                                        .collect(Collectors.toList())
+                        );
+                for(Operacao x : operacoesDodia){
+                    if (x.getTipoOperacao() == 0) {
+                        saldoAnterior += x.getValorOperacao();
+                    } else {
+                        saldoAnterior -= x.getValorOperacao();
+                    }
+
+                }
+                saldoTotalDoMes += saldoAnterior;
+            }
+
+            return saldoTotalDoMes / 30;
+        }
 
 }
