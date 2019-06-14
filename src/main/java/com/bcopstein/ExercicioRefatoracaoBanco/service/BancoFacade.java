@@ -50,12 +50,17 @@ public class BancoFacade {
     }
 
     public String getCorrentista(Integer numeroConta) {
-        return contas.getCorrentista(numeroConta);
+        try {
+            return contas.getCorrentista(numeroConta);
+        } catch (InvalidAccountException e) {
+            return "NON-EXISTENT ACCOUNT!";
+        }
     }
 
     public String getStrStatus(Integer numeroConta) {
         return contas.getStrStatus(numeroConta);
     }
+
     public double getTotalRetiradaDia(int numConta)
     {
         return contas.getTotalRetiradaDia(numConta);
@@ -76,7 +81,7 @@ public class BancoFacade {
     }
 
     public void retirada(Integer numeroConta, double valor) throws NotEnoughFundsException, InvalidAccountException, AccountWithdrawalLimitExceededException {
-        if (Validations.isWithdrawalValid(numeroConta, valor)) {
+        if (Validations.isWithdrawalValid(contas.getTotalRetiradaDia(numeroConta), contas.getSaldo(numeroConta), valor)) {
             contas.retirada(numeroConta, valor);
         }
     }

@@ -125,13 +125,11 @@ public class TelaOperacoes {
         btnDebito.setOnAction(e->{
         	try {
           	  double valor = Integer.parseInt(tfValorOperacao.getText());
-				if (Validations.isWithdrawalValid(numeroConta, valor)) {
 					BancoFacade.getInstance().retirada(numeroConta, valor);
 					tfSaldo.setText("" + BancoFacade.getInstance().getSaldo(numeroConta));
 					update();
 					extrato.setItems(ultimasOperacoes);
 					tfSaldo.setText("" + BancoFacade.getInstance().getSaldo(numeroConta));
-          	  }
 			} catch (AccountWithdrawalLimitExceededException limEx) {
   				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Limite excedido !!");

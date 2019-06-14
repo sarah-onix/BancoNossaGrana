@@ -3,6 +3,7 @@ package com.bcopstein.ExercicioRefatoracaoBanco.service;
 import com.bcopstein.ExercicioRefatoracaoBanco.entity.Conta;
 import com.bcopstein.ExercicioRefatoracaoBanco.entity.Operacao;
 import com.bcopstein.ExercicioRefatoracaoBanco.repository.Persistencia;
+import com.bcopstein.ExercicioRefatoracaoBanco.util.ProjectExceptions.InvalidAccountException;
 
 import javax.management.InstanceAlreadyExistsException;
 import java.util.ArrayList;
@@ -49,8 +50,11 @@ public class Contas {
         return false;
     }
 
-    public String getCorrentista(int nroConta) {
-        return contas.get(nroConta).getCorrentista();
+    public String getCorrentista(int nroConta) throws InvalidAccountException {
+        if (contas.containsKey(nroConta)) {
+            return contas.get(nroConta).getCorrentista();
+        }
+        return "CONTA_INEXISTENTE";
     }
 
     public String getStrStatus(int nroConta) {
@@ -67,11 +71,11 @@ public class Contas {
 
     public double getTotalRetiradaDia(int numConta)
     {
-        LinkedList<Operacao> operacoesDia = (LinkedList<Operacao>) BancoFacade.getInstance().getOperacoesDia(numConta);
+        LinkedList<Operacao> operacoesDia = (LinkedList<Operacao>) operacoes.getOperacoesDia(numConta);
         double totalDia = 0;
         for( Operacao o : operacoesDia)
         {
-            if(o.getTipoOperacao() == 1) //1 é o código de oprração de débito
+            if (o.getTipoOperacao() == 1) //1 é o código de operação de débito
                 totalDia += o.getValorOperacao();
         }
         return totalDia;
@@ -162,10 +166,6 @@ public class Contas {
                                 .filter(op -> op.getMes() == monthValue)
                                 .collect(Collectors.toList())
                 );
-
-        if (operacoesNoMesTemp.isEmpty()) {
-            return contas.get(numeroConta).getSaldoInicial(); // corrigir
-        }
 
             double saldoAnterior = 0;
             for(Operacao x:operacoesBeforeDate){

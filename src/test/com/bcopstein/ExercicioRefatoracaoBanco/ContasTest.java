@@ -1,10 +1,12 @@
 package com.bcopstein.ExercicioRefatoracaoBanco;
 
 import com.bcopstein.ExercicioRefatoracaoBanco.entity.Conta;
+import com.bcopstein.ExercicioRefatoracaoBanco.entity.ContasFactory;
 import com.bcopstein.ExercicioRefatoracaoBanco.entity.Operacao;
 import com.bcopstein.ExercicioRefatoracaoBanco.repository.Persistencia;
 import com.bcopstein.ExercicioRefatoracaoBanco.service.Contas;
 import com.bcopstein.ExercicioRefatoracaoBanco.service.Operacoes;
+import com.bcopstein.ExercicioRefatoracaoBanco.util.ProjectExceptions.InvalidAccountException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,7 +26,6 @@ public class ContasTest {
     @BeforeAll
     public static void init() {
 
-
     }
 
     @BeforeEach
@@ -33,10 +34,11 @@ public class ContasTest {
         Map<Integer, Conta> contas = new HashMap<>();
         Conta conta10 = new Conta(10, "John Doe");
         Conta conta12 = new Conta(12, "Jane Doe");
-        Conta conta15 = new Conta(15, "Sam Smith", 100.00);
-        Conta contaRetirada = new Conta(100, "ContaParaRetirada", 200.00);
-        Conta contaDeposito = new Conta(200, "ContaParaDeposito", 100.00);
-        Conta contaComSaldo = new Conta(300, "ContaComSaldo", 100.00);
+        Conta conta15 = ContasFactory.getConta(15, "Sam Smith", 100.00);
+        // we can use factory because it is static
+        Conta contaRetirada = ContasFactory.getConta(100, "ContaParaRetirada", 200.00);
+        Conta contaDeposito = ContasFactory.getConta(200, "ContaParaDeposito", 100.00);
+        Conta contaComSaldo = ContasFactory.getConta(300, "ContaComSaldo", 100.00);
         contas.put(10, conta10);
         contas.put(12, conta12);
         contas.put(15, conta15);
@@ -88,10 +90,11 @@ public class ContasTest {
     }
 
     @Test
-    public void getCorrentista() {
+    public void getValidCorrentista() throws InvalidAccountException {
         assertEquals("John Doe", contasTest.getCorrentista(10));
         assertEquals("Jane Doe", contasTest.getCorrentista(12));
         assertEquals("Sam Smith", contasTest.getCorrentista(15));
+        assertEquals("CONTA_INEXISTENTE", contasTest.getCorrentista(999));
     }
 
     @Test
@@ -123,7 +126,7 @@ public class ContasTest {
 
     @Test
     public void deposito() {
-        contasTest.deposito(200, 100);
+        contasTest.deposito(200, 10);
         assertEquals((10 + 100), contasTest.getSaldo(200));
     }
 

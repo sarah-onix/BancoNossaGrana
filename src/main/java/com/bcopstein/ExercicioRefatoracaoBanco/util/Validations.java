@@ -1,6 +1,5 @@
 package com.bcopstein.ExercicioRefatoracaoBanco.util;
 
-import com.bcopstein.ExercicioRefatoracaoBanco.service.BancoFacade;
 import com.bcopstein.ExercicioRefatoracaoBanco.util.ProjectExceptions.AccountWithdrawalLimitExceededException;
 import com.bcopstein.ExercicioRefatoracaoBanco.util.ProjectExceptions.InvalidAccountException;
 import com.bcopstein.ExercicioRefatoracaoBanco.util.ProjectExceptions.NotEnoughFundsException;
@@ -9,10 +8,10 @@ public class Validations {
 
 
     public static boolean isNumeroContaValid(int numeroConta) throws InvalidAccountException {
-        if (BancoFacade.getInstance().contaExists(numeroConta)) {
+        if (numeroConta > 0) {
             return true;
         }
-        throw new InvalidAccountException("Número da conta é INVALIDO ou NAO EXISTE");
+        throw new InvalidAccountException("Número da conta é INVALIDO");
     }
 
     public static boolean isValueValid(double value) {
@@ -22,28 +21,26 @@ public class Validations {
             return true;
     }
 
-    public static boolean hasEnoughFundsAfterWithdrawal(int numeroConta, double value) throws NotEnoughFundsException, InvalidAccountException {
-        if (BancoFacade.getInstance().getSaldo(numeroConta) < value) {
+    public static boolean hasEnoughFundsAfterWithdrawal(double saldoDaConta, double value) throws NotEnoughFundsException, InvalidAccountException {
+        if (saldoDaConta < value) {
             throw new NotEnoughFundsException();
         }
         return true;
     }
 
-    public static boolean hasEnoughQuota(int numeroConta, double value) throws AccountWithdrawalLimitExceededException 
+    public static boolean hasEnoughQuota(double totalRestanteRetiradaDoDia, double value) throws AccountWithdrawalLimitExceededException
     {
-        double totalDia = BancoFacade.getInstance().getTotalRetiradaDia(numeroConta);
-        totalDia += value;
 
-        if(totalDia > BancoFacade.getInstance().getLimRetiradaDiaria(numeroConta))
+        if (value > totalRestanteRetiradaDoDia)
         {
             throw new AccountWithdrawalLimitExceededException();
-        }
-        return true;
+        } else
+            return true;
         
     }
 
-    public static boolean isWithdrawalValid(int numeroConta, double value) throws AccountWithdrawalLimitExceededException, NotEnoughFundsException, NumberFormatException, InvalidAccountException {
-        if (hasEnoughFundsAfterWithdrawal(numeroConta, value) && hasEnoughQuota(numeroConta, value) && isValueValid(value)) {
+    public static boolean isWithdrawalValid(double totalRestanteRetirada, double saldoAntes, double valorRetirada) throws AccountWithdrawalLimitExceededException, NotEnoughFundsException, NumberFormatException, InvalidAccountException {
+        if (hasEnoughFundsAfterWithdrawal(saldoAntes, valorRetirada) && hasEnoughQuota(totalRestanteRetirada, valorRetirada) && isValueValid(valorRetirada)) {
             return true;
         }
         return false;
