@@ -28,10 +28,9 @@ public class Validations {
         return true;
     }
 
-    public static boolean hasEnoughQuota(double totalRestanteRetiradaDoDia, double value) throws AccountWithdrawalLimitExceededException
+    public static boolean hasEnoughQuota(double totalJaRetiradoDoDia, double limiteDeRetiradaDiario, double value) throws AccountWithdrawalLimitExceededException
     {
-
-        if (value > totalRestanteRetiradaDoDia)
+        if (value > (limiteDeRetiradaDiario - totalJaRetiradoDoDia))
         {
             throw new AccountWithdrawalLimitExceededException();
         } else
@@ -39,8 +38,8 @@ public class Validations {
         
     }
 
-    public static boolean isWithdrawalValid(double totalRestanteRetirada, double saldoAntes, double valorRetirada) throws AccountWithdrawalLimitExceededException, NotEnoughFundsException, NumberFormatException, InvalidAccountException {
-        if (hasEnoughFundsAfterWithdrawal(saldoAntes, valorRetirada) && hasEnoughQuota(totalRestanteRetirada, valorRetirada) && isValueValid(valorRetirada)) {
+    public static boolean isWithdrawalValid(double totalJaRetiradoDoDia, double limiteDeRetiradaDiario, double saldoAntes, double valorRetirada) throws AccountWithdrawalLimitExceededException, NotEnoughFundsException, NumberFormatException, InvalidAccountException {
+        if (hasEnoughFundsAfterWithdrawal(saldoAntes, valorRetirada) && hasEnoughQuota(totalJaRetiradoDoDia, limiteDeRetiradaDiario, valorRetirada) && isValueValid(valorRetirada)) {
             return true;
         }
         return false;

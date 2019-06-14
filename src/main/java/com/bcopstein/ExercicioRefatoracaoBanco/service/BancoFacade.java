@@ -81,7 +81,7 @@ public class BancoFacade {
     }
 
     public void retirada(Integer numeroConta, double valor) throws NotEnoughFundsException, InvalidAccountException, AccountWithdrawalLimitExceededException {
-        if (Validations.isWithdrawalValid(contas.getTotalRetiradaDia(numeroConta), contas.getSaldo(numeroConta), valor)) {
+        if (Validations.isWithdrawalValid(contas.getTotalRetiradaDia(numeroConta), contas.getLimRetiradaDiaria(numeroConta), contas.getSaldo(numeroConta), valor)) {
             contas.retirada(numeroConta, valor);
         }
     }

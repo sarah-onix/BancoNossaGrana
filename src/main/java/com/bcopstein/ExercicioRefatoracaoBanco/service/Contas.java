@@ -82,11 +82,17 @@ public class Contas {
     }
 
     public void retirada(int numeroConta, double valor) {
+        if (valor <= 0) {
+            return;
+        }
         contas.get(numeroConta).retirada(valor);
         operacoes.createRetirada(numeroConta, valor, contas.get(numeroConta).getStatus());
     }
 
     public void deposito(int numeroConta, double valor) {
+        if (valor <= 0) {
+            return;
+        }
         Conta conta = contas.get(numeroConta);
         conta.deposito(valor);
         operacoes.createDeposito(numeroConta, valor, conta.getStatus());
