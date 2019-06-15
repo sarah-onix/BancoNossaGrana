@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+
 public class Contas {
 
     private Map<Integer, Conta> contas;
@@ -21,7 +22,6 @@ public class Contas {
     private Operacoes operacoes;
 
     private Persistencia persistencia;
-
 
     public Contas(Persistencia persistencia, Operacoes operacoes, boolean isTest) {
         this.persistencia = persistencia;
