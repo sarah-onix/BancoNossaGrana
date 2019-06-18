@@ -1,6 +1,6 @@
 package com.bcopstein.ExercicioRefatoracaoBanco.util;
 
-import controller.BancoController;
+import com.bcopstein.ExercicioRefatoracaoBanco.controller.BancoController;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
