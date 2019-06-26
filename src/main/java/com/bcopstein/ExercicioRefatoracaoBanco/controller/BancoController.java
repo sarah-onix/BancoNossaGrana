@@ -56,12 +56,12 @@ public class BancoController {
         return BancoFacade.getInstance().getSaldo(numeroConta);
     }
 
-    @PutMapping(path = "{numeroConta}/deposito}")
+    @PutMapping(path = "deposito}")
     public void deposito(@RequestBody int numeroConta, @RequestBody double valor) throws InvalidAccountException, NumberFormatException {
         BancoFacade.getInstance().deposito(numeroConta, valor);
     }
 
-    @PutMapping(path = "{numeroConta}/retirada")
+    @PutMapping(path = "retirada")
     public void retirada(@RequestBody int numeroConta, @RequestBody double valor) throws NotEnoughFundsException, InvalidAccountException, AccountWithdrawalLimitExceededException {
         BancoFacade.getInstance().retirada(numeroConta, valor);
     }

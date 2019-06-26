@@ -2,9 +2,9 @@
 
 ![travis](https://travis-ci.org/sarah-onix/BancoNossaGrana.svg?branch=master)
 
-######Trabalho final da disciplina de Técnicas de Programação PUCRS 2019/1 
+** Trabalho final da disciplina de Técnicas de Programação PUCRS 2019/1 **
 
-## Modulo de acesso a conta corrente do Banco Nossa Grana
+* Modulo de acesso a conta corrente do Banco Nossa Grana*
 
 
 
@@ -16,7 +16,7 @@ O módulo de acesso a conta corrente é um módulo simples que permite ao funcio
 * Efetuar retiradas
 * Consultar estatísticas sobre a conta corrente
 
-#####Nesse projeto o sistema é implementado em duas versões:
+**Nesse projeto o sistema é implementado em duas versões:**
 
 - como uma aplicação com interface gráfica em JavaFX (padrão)
 
@@ -24,21 +24,21 @@ O módulo de acesso a conta corrente é um módulo simples que permite ao funcio
 
 **A primeira opção encontra-se implementada na branch master do projeto. Para a versão WEB, ver a branch SpringApp**
 
-#####Na versão padrão, sistema é composto por três telas:
+* Na versão padrão, sistema é composto por três telas: *
 * Tela de identificação da conta corrente: nesta tela o usuário informa o número da conta corrente que deseja acessar.
 
 * Tela de operações: nesta tela o usuário visualiza o saldo, a categoria da conta, o limite diário para saque e os últimos movimentos da conta informada e pode executar operações de depósito e retirada. *<< BUGFIX: ajustar a categoria da conta quando ela muda !!*
 
 * Tela de estatísticas: nesta tela o usuário visualiza informações gerais sobre a conta tais como: saldo médio no mês/ano indicados; total e quantidade de créditos no mês ano indicados; total e quantidade de débitos no mês ano indicados. O usuário tem acesso a tela de estatisticas a partir da tela de operacoes  *<< ESTA TELA AINDA NÃO ESTA IMPLEMENTADA !!*
 
-##Características da lógica de peração
+**Características da lógica de peração**
 
 As contas desse banco tem um comportamento específico. Quanto mais dinheiro o cliente tem depositado mais o banco valoriza seus depósitos. Todos as contas iniciam na categoria “Silver” e zeradas. Contas “Silver” não têm seus depósitos valorizados, ou seja, o valor creditado é exatamente o valor depositado pelo cliente. Quando o saldo da conta atinge ou ultrapassa R$ 50.000,00, a conta passa para a categoria “Gold”. Contas “Gold” têm seus depósitos valorizados em 1%. Neste caso se o cliente depositar R$ 1.000,00 o valor creditado será de R$ 1.010,00. Finalmente se o saldo da conta atinge ou supera os R$ 200.000,00, a conta passa para a categoria “Platinum”. Contas “Platinum” têm seus depósitos valorizados em 2,5%. A verificação de “upgrade” da conta se dá via operação de depósito, e não é possível que um cliente faça “upgrade” diretamente de “Silver” para “Platinum” em uma única operação.
 
 Quando o saldo da conta diminui, em função de uma operação de retirada/saque, a categoria também pode retroceder. **Os limites, porém, não são os mesmos ao verificados quando uma conta sofre “upgrade”**.  
 Uma conta só perde sua categoria “Platinum”, e passa para “Gold”, se o saldo cair abaixo de R$ 100.000,00. A conta só perde a categoria “Gold”, e passa para “Silver”, se o saldo cair para menos de R$ 25.000,00. Note que uma conta nunca perde duas categorias em uma única operação de retirada mesmo que o saldo caia abaixo de R$ 25.000,00. Se ele era “Platinum”, cai para “Gold”. Só poderá cair para “Silver” na próxima operação de retirada. Observação: as contas nunca podem ficar negativas (o banco não trabalha com cheque especial).
 
-####Abaixo estão listados os limites diários para saque de acordo com cada tipo de conta:
+***Abaixo estão listados os limites diários para saque de acordo com cada tipo de conta:***
 
 | Categoria da conta  | Limite diário para saque |
 | ------------- | ------------- |
@@ -51,7 +51,7 @@ Uma conta só perde sua categoria “Platinum”, e passa para “Gold”, se o 
 
 - O número de conta pode ser qualquer inteiro positivo
 
-##PERSISTENCIA DOS DADOS:
+#PERSISTENCIA DOS DADOS:
 Para simplificar a troca de dados os seguintes arquivos são fornecidos:
 
 * Persistencia.java:
@@ -61,12 +61,12 @@ Para simplificar a troca de dados os seguintes arquivos são fornecidos:
 * BDOperBNG.txt:
   * arquivo exemplo com dados de operações sobre contas corrente.
 
-## Estrutura do projeto padrão
+# Estrutura do projeto padrão
 ![Nome](https://github.com/TP-BCopsteinSource/ExercicioRefatoracaoBanco/raw/master/ArquiteturaDaSolucaoRefatorada.jpg)
 
-## Mapeamento de endpoints da API REST
+# Mapeamento de endpoints da API REST
 
-###Consultas
+#Consultas
 
 #####   Verificar se uma conta existe pelo número da conta:
 
