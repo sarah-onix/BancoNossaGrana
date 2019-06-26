@@ -2,7 +2,7 @@
 
 ![travis](https://travis-ci.org/sarah-onix/BancoNossaGrana.svg?branch=master)
 
-** Trabalho final da disciplina de Técnicas de Programação PUCRS 2019/1 **
+#### Trabalho final da disciplina de Técnicas de Programação PUCRS 2019/1
 
 * Modulo de acesso a conta corrente do Banco Nossa Grana*
 
@@ -195,7 +195,7 @@ Para simplificar a troca de dados os seguintes arquivos são fornecidos:
     
     
     
-#Autores:
+# Autores:
 
 * Bernardo Copstein
 * Gabriel Justo
