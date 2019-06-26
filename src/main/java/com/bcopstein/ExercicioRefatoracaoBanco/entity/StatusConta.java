@@ -4,7 +4,8 @@ package com.bcopstein.ExercicioRefatoracaoBanco.entity;
 public interface StatusConta
 {
     double getSaldo();
-    Integer getNumero();
+
+    int getNumero();
     String getCorrentista();
     int getStatus();
     String getStrStatus();

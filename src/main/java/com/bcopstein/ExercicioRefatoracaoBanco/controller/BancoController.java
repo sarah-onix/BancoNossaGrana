@@ -5,10 +5,7 @@ import com.bcopstein.ExercicioRefatoracaoBanco.service.BancoFacade;
 import com.bcopstein.ExercicioRefatoracaoBanco.util.ProjectExceptions.AccountWithdrawalLimitExceededException;
 import com.bcopstein.ExercicioRefatoracaoBanco.util.ProjectExceptions.InvalidAccountException;
 import com.bcopstein.ExercicioRefatoracaoBanco.util.ProjectExceptions.NotEnoughFundsException;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -59,13 +56,13 @@ public class BancoController {
         return BancoFacade.getInstance().getSaldo(numeroConta);
     }
 
-    @GetMapping(path = "{numeroConta}/deposito/{valor}")
-    public void deposito(@PathVariable(value = "numeroConta") int numeroConta, @PathVariable(value = "valor") double valor) throws InvalidAccountException, NumberFormatException {
+    @PutMapping(path = "{numeroConta}/deposito}")
+    public void deposito(@RequestBody int numeroConta, @RequestBody double valor) throws InvalidAccountException, NumberFormatException {
         BancoFacade.getInstance().deposito(numeroConta, valor);
     }
 
-    @GetMapping(path = "{numeroConta}/retirada/{valor}")
-    public void retirada(@PathVariable(value = "numeroConta") int numeroConta, @PathVariable(value = "valor") double valor) throws NotEnoughFundsException, InvalidAccountException, AccountWithdrawalLimitExceededException {
+    @PutMapping(path = "{numeroConta}/retirada")
+    public void retirada(@RequestBody int numeroConta, @RequestBody double valor) throws NotEnoughFundsException, InvalidAccountException, AccountWithdrawalLimitExceededException {
         BancoFacade.getInstance().retirada(numeroConta, valor);
     }
 
@@ -94,6 +91,7 @@ public class BancoController {
         return BancoFacade.getInstance().getSaldoMedioNoMes(numeroConta, monthValue, yearValue);
     }
 
+    @PatchMapping(path = "save")
     public void save() {
         BancoFacade.getInstance().save();
     }
