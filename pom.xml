@@ -75,7 +75,7 @@
 				<version>2.22.0</version>
 			</plugin>
 			<!-- plugin para gerar "uber jar" -->
-			<plugin>
+<!--			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
 				<version>2.1</version>
@@ -94,7 +94,7 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin>-->
 			<!-- plugin para executar o code coverage -->
 			<plugin>
 				<groupId>org.jacoco</groupId>
