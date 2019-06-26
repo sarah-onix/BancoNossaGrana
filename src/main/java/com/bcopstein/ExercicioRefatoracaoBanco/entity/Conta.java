@@ -15,7 +15,7 @@ public class Conta {
 		return statusConta.getSaldo();
 	}
 
-	public Integer getNumero() {
+	public int getNumero() {
 		return statusConta.getNumero();
 	}
 

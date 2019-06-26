@@ -25,7 +25,9 @@ public class ContaSilver implements StatusConta
     public double getSaldo(){return saldo;}
 
     @Override
-    public Integer getNumero(){return numConta;}
+    public int getNumero() {
+        return numConta;
+    }
 
     @Override 
     public String getCorrentista(){return correntista;}

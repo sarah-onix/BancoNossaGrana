@@ -44,12 +44,11 @@ public class BancoFacade {
         return operacoes.getOperacoesDaConta(numeroConta);
     }
 
-    public List<Operacao> getOperacoesDia(int numConta)
-    {
+    public List<Operacao> getOperacoesDia(int numConta) {
         return operacoes.getOperacoesDia(numConta);
     }
 
-    public String getCorrentista(Integer numeroConta) {
+    public String getCorrentista(int numeroConta) {
         try {
             return contas.getCorrentista(numeroConta);
         } catch (InvalidAccountException e) {
@@ -57,24 +56,23 @@ public class BancoFacade {
         }
     }
 
-    public String getStrStatus(Integer numeroConta) {
+    public String getStrStatus(int numeroConta) {
         return contas.getStrStatus(numeroConta);
     }
 
-    public double getTotalRetiradaDia(int numConta)
-    {
+    public double getTotalRetiradaDia(int numConta) {
         return contas.getTotalRetiradaDia(numConta);
     }
 
-    public double getLimRetiradaDiaria(Integer numeroConta) {
+    public double getLimRetiradaDiaria(int numeroConta) {
         return contas.getLimRetiradaDiaria(numeroConta);
     }
 
-    public double getSaldo(Integer numeroConta) {
+    public double getSaldo(int numeroConta) {
         return contas.getSaldo(numeroConta);
     }
 
-    public void deposito(Integer numeroConta, double valor) throws InvalidAccountException, NumberFormatException {
+    public void deposito(int numeroConta, double valor) throws InvalidAccountException, NumberFormatException {
         if (Validations.isDepositValid(numeroConta, valor)) {
             contas.deposito(numeroConta, valor);
         }
