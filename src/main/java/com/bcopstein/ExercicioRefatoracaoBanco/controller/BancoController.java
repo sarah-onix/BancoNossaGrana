@@ -56,7 +56,7 @@ public class BancoController {
         return BancoFacade.getInstance().getSaldo(numeroConta);
     }
 
-    @PutMapping(path = "deposito}")
+    @PutMapping(path = "deposito")
     public void deposito(@RequestBody int numeroConta, @RequestBody double valor) throws InvalidAccountException, NumberFormatException {
         BancoFacade.getInstance().deposito(numeroConta, valor);
     }

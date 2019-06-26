@@ -10,8 +10,8 @@ public class Validations {
     public static boolean isNumeroContaValid(int numeroConta) throws InvalidAccountException {
         if (numeroConta > 0) {
             return true;
-        }
-        throw new InvalidAccountException("Número da conta é INVALIDO");
+        } else
+            throw new InvalidAccountException("Número da conta é INVALIDO");
     }
 
     public static boolean isValueValid(double value) {
