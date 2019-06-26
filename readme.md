@@ -27,9 +27,9 @@ O módulo de acesso a conta corrente é um módulo simples que permite ao funcio
 * Na versão padrão, sistema é composto por três telas: *
 * Tela de identificação da conta corrente: nesta tela o usuário informa o número da conta corrente que deseja acessar.
 
-* Tela de operações: nesta tela o usuário visualiza o saldo, a categoria da conta, o limite diário para saque e os últimos movimentos da conta informada e pode executar operações de depósito e retirada. *<< BUGFIX: ajustar a categoria da conta quando ela muda !!*
+* Tela de operações: nesta tela o usuário visualiza o saldo, a categoria da conta, o limite diário para saque e os últimos movimentos da conta informada e pode executar operações de depósito e retirada. *
 
-* Tela de estatísticas: nesta tela o usuário visualiza informações gerais sobre a conta tais como: saldo médio no mês/ano indicados; total e quantidade de créditos no mês ano indicados; total e quantidade de débitos no mês ano indicados. O usuário tem acesso a tela de estatisticas a partir da tela de operacoes  *<< ESTA TELA AINDA NÃO ESTA IMPLEMENTADA !!*
+* Tela de estatísticas: nesta tela o usuário visualiza informações gerais sobre a conta tais como: saldo médio no mês/ano indicados; total e quantidade de créditos no mês ano indicados; total e quantidade de débitos no mês ano indicados. O usuário tem acesso a tela de estatisticas a partir da tela de operacoes  *
 
 **Características da lógica de peração**
 
@@ -51,7 +51,7 @@ Uma conta só perde sua categoria “Platinum”, e passa para “Gold”, se o 
 
 - O número de conta pode ser qualquer inteiro positivo
 
-#PERSISTENCIA DOS DADOS:
+# PERSISTENCIA DOS DADOS:
 Para simplificar a troca de dados os seguintes arquivos são fornecidos:
 
 * Persistencia.java:
@@ -66,7 +66,7 @@ Para simplificar a troca de dados os seguintes arquivos são fornecidos:
 
 # Mapeamento de endpoints da API REST
 
-#Consultas
+**Consultas**
 
 #####   Verificar se uma conta existe pelo número da conta:
 
@@ -169,7 +169,7 @@ Para simplificar a troca de dados os seguintes arquivos são fornecidos:
     Parâmetro: monthValue Mês a ser pesquisado (numérico de 1-12)
     Parâmetro: yearValue Ano do mês a ser pesquisado (numérico)_  
 
-###Operações
+**Operações**
 
 ##### Deposita um valor em uma conta pelo número da conta do correntista:
   
@@ -195,7 +195,7 @@ Para simplificar a troca de dados os seguintes arquivos são fornecidos:
     
     
     
-##Autores:
+#Autores:
 
 * Bernardo Copstein
 * Gabriel Justo
