@@ -20,7 +20,7 @@ O módulo de acesso a conta corrente é um módulo simples que permite ao funcio
 
 - como uma aplicação com interface gráfica em JavaFX (padrão)
 
-- como uma aplicação Spring API REST (branch SpringApp)
+- como uma aplicação Spring API WEB (branch SpringApp)
 
 **A primeira opção encontra-se implementada na branch master do projeto. Para a versão WEB, ver a branch SpringApp**
 
@@ -64,7 +64,7 @@ Para simplificar a troca de dados os seguintes arquivos são fornecidos:
 # Estrutura do projeto padrão
 ![Nome](https://github.com/TP-BCopsteinSource/ExercicioRefatoracaoBanco/raw/master/ArquiteturaDaSolucaoRefatorada.jpg)
 
-# Mapeamento de endpoints da API REST
+# Mapeamento de endpoints da API WEB
 
 **Consultas**
 
