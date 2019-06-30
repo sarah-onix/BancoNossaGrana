@@ -54,12 +54,9 @@ Uma conta só perde sua categoria “Platinum”, e passa para “Gold”, se o 
 # PERSISTENCIA DOS DADOS:
 Para simplificar a troca de dados os seguintes arquivos são fornecidos:
 
-* Persistencia.java:
-  * modulo Java com métodos para leitura e gravação de dados relativos a contas corrente e movimentações de contas corrente (operações de depósito e retirada).
-* BDContasBNG.txt:
-  * arquivo exemplo com dados de contas corrente.
-* BDOperBNG.txt:
-  * arquivo exemplo com dados de operações sobre contas corrente.
+`Persistencia.java`: Modulo Java com métodos para leitura e gravação de dados relativos a contas corrente e movimentações de contas corrente (operações de depósito e retirada).  
+ `BDContasBNG.txt` : Arquivo com dados de contas corrente.  
+ `BDOperBNG.txt` : Arquivo com dados de operações sobre contas corrente.
 
 # Estrutura do projeto padrão
 ![Nome](https://github.com/TP-BCopsteinSource/ExercicioRefatoracaoBanco/raw/master/ArquiteturaDaSolucaoRefatorada.jpg)
@@ -82,7 +79,7 @@ Para simplificar a troca de dados os seguintes arquivos são fornecidos:
 
 #####  Buscar relação de operações do dia corrente de uma conta pelo número da conta:
   
-    `GET localhost:8080/conta/{numeroConta}/operacoesDoDia`
+    GET localhost:8080/conta/{numeroConta}/operacoesDoDia
     
     Parâmetro: numeroConta Número da conta  a ser pesquisada
     
@@ -94,7 +91,7 @@ Para simplificar a troca de dados os seguintes arquivos são fornecidos:
     
 #####  Buscar buscar o nome de um correntista pelo seu número da conta:
   
-    `GET localhost:8080/conta/{numeroConta}/nomeCorrentista
+    GET localhost:8080/conta/{numeroConta}/nomeCorrentista
     
     Parâmetro: numeroConta Número da conta  a ser pesquisada    
     
