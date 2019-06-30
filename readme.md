@@ -51,7 +51,7 @@ Uma conta só perde sua categoria “Platinum”, e passa para “Gold”, se o 
 
 - O número de conta pode ser qualquer inteiro positivo
 
-# PERSISTENCIA DOS DADOS:
+# Persistência dos dados:
 Para simplificar a troca de dados os seguintes arquivos são fornecidos:
 
 `Persistencia.java`: Modulo Java com métodos para leitura e gravação de dados relativos a contas corrente e movimentações de contas corrente (operações de depósito e retirada).  
