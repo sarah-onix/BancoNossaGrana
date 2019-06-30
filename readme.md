@@ -1,7 +1,7 @@
 # BANCO NOSSA GRANA <img src="src/main/resources/moneybag.png" align="right" />
 ![travis](https://travis-ci.org/sarah-onix/BancoNossaGrana.svg?branch=master)
 
-#### Trabalho final da disciplina de Técnicas de Programação PUCRS 2019/1
+> Trabalho final da disciplina de Técnicas de Programação PUCRS 2019/1
 
 ## Modulo de acesso a conta corrente do Banco Nossa Grana
 
