@@ -1,12 +1,9 @@
-# BANCO NOSSA GRANA
-
+# BANCO NOSSA GRANA <img src="src/main/resources/moneybag.png" align="right" />
 ![travis](https://travis-ci.org/sarah-onix/BancoNossaGrana.svg?branch=master)
 
-#### Trabalho final da disciplina de Técnicas de Programação PUCRS 2019/1
+> Trabalho final da disciplina de Técnicas de Programação PUCRS 2019/1
 
 ## Modulo de acesso a conta corrente do Banco Nossa Grana
-
-
 
 O módulo de acesso a conta corrente é um módulo simples que permite ao funcionário do banco executar operações básicas sobre as contas correntes:
 * Consultar saldo
@@ -16,15 +13,16 @@ O módulo de acesso a conta corrente é um módulo simples que permite ao funcio
 * Efetuar retiradas
 * Consultar estatísticas sobre a conta corrente
 
-**Nesse projeto o sistema é implementado em duas versões:**
+### Nesse projeto o sistema é implementado em duas versões:
 
-- como uma aplicação com interface gráfica em JavaFX (padrão)
+* [como uma aplicação com interface gráfica em JavaFX (padrão)](https://github.com/sarah-onix/BancoNossaGrana)
 
-- como uma aplicação Spring API REST (branch SpringApp)
+* [como uma aplicação Spring API WEB (branch SpringApp)](https://github.com/sarah-onix/BancoNossaGrana/tree/SpringApp)
 
-**A primeira opção encontra-se implementada na branch master do projeto. Para a versão WEB, ver a branch SpringApp**
+ A primeira opção encontra-se implementada na branch master do projeto. Para a versão WEB, ver a branch SpringApp
 
-* Na versão padrão, sistema é composto por três telas: *
+
+#### Na versão padrão, sistema é composto por três telas:
 * Tela de identificação da conta corrente: nesta tela o usuário informa o número da conta corrente que deseja acessar.
 
 * Tela de operações: nesta tela o usuário visualiza o saldo, a categoria da conta, o limite diário para saque e os últimos movimentos da conta informada e pode executar operações de depósito e retirada. *
@@ -51,85 +49,82 @@ Uma conta só perde sua categoria “Platinum”, e passa para “Gold”, se o 
 
 - O número de conta pode ser qualquer inteiro positivo
 
-# PERSISTENCIA DOS DADOS:
+# Persistência dos dados:
 Para simplificar a troca de dados os seguintes arquivos são fornecidos:
 
-* Persistencia.java:
-  * modulo Java com métodos para leitura e gravação de dados relativos a contas corrente e movimentações de contas corrente (operações de depósito e retirada).
-* BDContasBNG.txt:
-  * arquivo exemplo com dados de contas corrente.
-* BDOperBNG.txt:
-  * arquivo exemplo com dados de operações sobre contas corrente.
+`Persistencia.java`: Modulo Java com métodos para leitura e gravação de dados relativos a contas corrente e movimentações de contas corrente (operações de depósito e retirada).  
+ `BDContasBNG.txt` : Arquivo com dados de contas corrente.  
+ `BDOperBNG.txt` : Arquivo com dados de operações sobre contas corrente.
 
 # Estrutura do projeto padrão
 ![Nome](https://github.com/TP-BCopsteinSource/ExercicioRefatoracaoBanco/raw/master/ArquiteturaDaSolucaoRefatorada.jpg)
 
-# Mapeamento de endpoints da API REST
+# Mapeamento de endpoints da API WEB
 
-**Consultas**
+### Consultas:
 
-#####   Verificar se uma conta existe pelo número da conta:
+####   Verificar se uma conta existe pelo número da conta:
 
     GET localhost:8080/conta/{numeroConta}/exists
   
     Parâmetro: numeroConta Número da conta  a ser pesquisada
   
-#####   Buscar relação de operações de uma conta pelo número da conta:
+####   Buscar relação de operações de uma conta pelo número da conta:
  
     GET localhost:8080/conta/{numeroConta}/operacoes
     
     Parâmetro: numeroConta Número da conta  a ser pesquisada
 
-#####  Buscar relação de operações do dia corrente de uma conta pelo número da conta:
+####  Buscar relação de operações do dia corrente de uma conta pelo número da conta:
   
-    `GET localhost:8080/conta/{numeroConta}/operacoesDoDia`
+    GET localhost:8080/conta/{numeroConta}/operacoesDoDia
     
     Parâmetro: numeroConta Número da conta  a ser pesquisada
     
-#####  Buscar relação de operações de uma conta pelo número da conta:
+####  Buscar relação de operações de uma conta pelo número da conta:
   
     GET localhost:8080/conta/{numeroConta}/operacoes
     
     Parâmetro: numeroConta Número da conta  a ser pesquisada
     
-#####  Buscar buscar o nome de um correntista pelo seu número da conta:
+####  Buscar buscar o nome de um correntista pelo seu número da conta:
   
-    `GET localhost:8080/conta/{numeroConta}/nomeCorrentista
+    GET localhost:8080/conta/{numeroConta}/nomeCorrentista
     
     Parâmetro: numeroConta Número da conta  a ser pesquisada    
     
-#####  Buscar o status de uma conta pelo número da conta:
+####  Buscar o status de uma conta pelo número da conta:
   
     GET localhost:8080/conta/{numeroConta}/status
     
     Parâmetro: numeroConta Número da conta  a ser pesquisada
     
     
-#####  Buscar valor total diario disponível para retirada no dia corrente:
+####  Buscar valor total diario disponível para retirada no dia corrente:
   
     GET localhost:8080/conta/{numeroConta}/totalRetiradaDisponivel
     
     Parâmetro: numeroConta Número da conta  a ser pesquisada
     
-#####  Buscar valor limite disponível para retirada diaria:
+####  Buscar valor limite disponível para retirada diaria:
   
     GET localhost:8080/conta/{numeroConta}/limRetDiaria
     
     Parâmetro: numeroConta Número da conta  a ser pesquisada
     
-#####  Buscar saldo do correntista pelo seu número da conta:
+####  Buscar saldo do correntista pelo seu número da conta:
   
     GET localhost:8080/conta/{numeroConta}/saldo
     
     Parâmetro: numeroConta Número da conta  a ser pesquisada
     
-#####  Buscar valor total diario disponível para retirada no dia corrente:
+####  Buscar valor total diario disponível para retirada no dia corrente:
   
     GET localhost:8080/conta/{numeroConta}/totalRetiradaDisponivel
     
     Parametro: numeroConta Número da conta  a ser pesquisada
     
-#####  Buscar o valor total de créditos em um mês/ano especificados:
+####  Buscar o valor total de créditos em um mês/ano especificados:
   
     GET localhost:8080/conta/{numeroConta}/totalCreditosNoMes/{monthValue}/{yearValues}
     
@@ -137,7 +132,7 @@ Para simplificar a troca de dados os seguintes arquivos são fornecidos:
     Parâmetro: monthValue  Mês a ser pesquisado (numérico de 1-12)
     Parâmetro: yearValue   Ano do mês a ser pesquisado (numérico)
     
-#####  Buscar o valor total de débitos em um mês/ano especificados:
+####  Buscar o valor total de débitos em um mês/ano especificados:
   
     GET localhost:8080/conta/{numeroConta}/totalDebitosNoMes/{monthValue}/{yearValues}
     
@@ -145,7 +140,7 @@ Para simplificar a troca de dados os seguintes arquivos são fornecidos:
     Parâmetro: monthValue  Mês a ser pesquisado (numérico de 1-12)  
     Parâmetro: yearValue   Ano do mês a ser pesquisado (numérico)  
     
-#####  Buscar a relação de todos os créditos em um mês/ano especificados:
+####  Buscar a relação de todos os créditos em um mês/ano especificados:
   
     GET localhost:8080/conta/{numeroConta}/creditosNoMes/{monthValue}/{yearValues}
     
@@ -153,7 +148,7 @@ Para simplificar a troca de dados os seguintes arquivos são fornecidos:
     Parâmetro: monthValue  Mês a ser pesquisado (numérico de 1-12)  
     Parâmetro: yearValue   Ano do mês a ser pesquisado (numérico)  
     
-#####  Buscar a relação de todos os débitos em um mês/ano especificados:
+####  Buscar a relação de todos os débitos em um mês/ano especificados:
   
     GET localhost:8080/conta/{numeroConta}/debitosNoMes/{monthValue}/{yearValues}
     
@@ -161,7 +156,7 @@ Para simplificar a troca de dados os seguintes arquivos são fornecidos:
     Parâmetro: monthValue  Mês a ser pesquisado (numérico de 1-12)  
     Parâmetro: yearValue   Ano do mês a ser pesquisado (numérico)  
     
-#####  Buscar o saldo médio de um correntista em um mês/ano especificados:
+####  Buscar o saldo médio de um correntista em um mês/ano especificados:
   
     GET localhost:8080/conta/{numeroConta}/saldoMedio/{monthValue}/{yearValues}
     
@@ -169,9 +164,9 @@ Para simplificar a troca de dados os seguintes arquivos são fornecidos:
     Parâmetro: monthValue Mês a ser pesquisado (numérico de 1-12)
     Parâmetro: yearValue Ano do mês a ser pesquisado (numérico)_  
 
-**Operações**
+### Operações:
 
-##### Deposita um valor em uma conta pelo número da conta do correntista:
+#### Deposita um valor em uma conta pelo número da conta do correntista:
   
     PUT localhost:8080/conta/deposito
      {
@@ -180,7 +175,7 @@ Para simplificar a troca de dados os seguintes arquivos são fornecidos:
      }
 
 
- ##### Efetua um saque em uma conta pelo número da conta do correntista:
+ #### Efetua um saque em uma conta pelo número da conta do correntista:
   
     PUT localhost:8080/conta/retirada
      {
@@ -189,7 +184,7 @@ Para simplificar a troca de dados os seguintes arquivos são fornecidos:
      }
 
     
- ##### Salvar os dados e persistir:
+ #### Salvar os dados e persistir:
   
     PATCH localhost:8080/conta/save
     
