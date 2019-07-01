@@ -21,14 +21,21 @@ public class OperacoesTest {
     Operacoes op;
     Map<Integer, Conta> contas;
     Contas contasTest;
+    List<Operacao> lstOperacao;
    
    
 
     @Before
     public void setup() throws InstanceAlreadyExistsException
     {
+        lstOperacao = new ArrayList<>();
         Persistencia mockPersistencia = mock(Persistencia.class);
         contas = new HashMap<>();
+        op = new Operacoes(mockPersistencia);
+        contasTest = new Contas(mockPersistencia, op, true);
+
+
+
 
         Conta conta1000 = new Conta(1, "Gabriel", 1000);
         Conta conta5000000 = new Conta(5, "João", 5000000);
@@ -37,33 +44,110 @@ public class OperacoesTest {
         contas.put(1, conta1000);
         contas.put(5, conta5000000);
         contas.put(0, conta0);
-        contas.put(3, conta60000);
+        contas.put(6, conta60000);
 
-        op = new Operacoes(mockPersistencia);
-      
+        Operacao op0 = new Operacao(
+            (Calendar.getInstance().get(Calendar.DAY_OF_MONTH)),
+            (Calendar.getInstance().get(Calendar.MONTH) + 1),
+            (Calendar.getInstance().get(Calendar.YEAR)),
+            (Calendar.getInstance().get(Calendar.HOUR)),
+            (Calendar.getInstance().get(Calendar.MINUTE)),
+            (Calendar.getInstance().get(Calendar.SECOND)),
+            0,
+            contas.get(0).getStatus(),
+            100000,
+            0);
+        Operacao op5 = new Operacao(
+            (Calendar.getInstance().get(Calendar.DAY_OF_MONTH)),
+            (Calendar.getInstance().get(Calendar.MONTH) + 1),
+            (Calendar.getInstance().get(Calendar.YEAR)),
+            (Calendar.getInstance().get(Calendar.HOUR)),
+            (Calendar.getInstance().get(Calendar.MINUTE)),
+            (Calendar.getInstance().get(Calendar.SECOND)),
+            0,
+            contas.get(5).getStatus(),
+            4900000,
+            1);
+        Operacao op6 = new Operacao(
+            (Calendar.getInstance().get(Calendar.DAY_OF_MONTH)),
+            (Calendar.getInstance().get(Calendar.MONTH) + 1),
+            (Calendar.getInstance().get(Calendar.YEAR)),
+            (Calendar.getInstance().get(Calendar.HOUR)),
+            (Calendar.getInstance().get(Calendar.MINUTE)),
+            (Calendar.getInstance().get(Calendar.SECOND)),
+            0,
+            contas.get(6).getStatus(),
+            55000,
+            1);
 
+        Operacao op1 = new Operacao(
+            (Calendar.getInstance().get(Calendar.DAY_OF_MONTH)),
+            (Calendar.getInstance().get(Calendar.MONTH) + 1),
+            (Calendar.getInstance().get(Calendar.YEAR)),
+            (Calendar.getInstance().get(Calendar.HOUR)),
+            (Calendar.getInstance().get(Calendar.MINUTE)),
+            (Calendar.getInstance().get(Calendar.SECOND)),
+            0,
+            contas.get(1).getStatus(),
+            5000000,
+            0);
+
+
+
+        lstOperacao.add(op0);
+        lstOperacao.add(op5);
+        lstOperacao.add(op6);
+        lstOperacao.add(op1);
+                
+
+
+
+
+        op.createDeposito(0,100000, contas.get(0).getStatus());
         op.createRetirada(5,4900000, contas.get(5).getStatus());// o status deve mudar para silver
         op.createRetirada(6, 55000, conta60000.getStatus());//o status da conta deve mudar para silver
-        op.createDeposito(0, 100000, conta0.getStatus());// o status deve mudar para gold
         op.createDeposito(1, 5000000, conta1000.getStatus());// o status da conta deve midar para platina
         op.save();
+
+
+
+        
         when(mockPersistencia.loadContas()).thenReturn(contas);
-        contasTest = new Contas(mockPersistencia, op, true);
 
         
     }
 
     @Test
-    public void testCreateRetirada()
+    public void testOperacoesConta()
     {
-        assertEquals(contasTest.getTotalRetiradaDia(5), 4900000);
-        assertEquals(contasTest.getTotalRetiradaDia(6), 1000);
+        assertEquals(lstOperacao.get(0).getValorOperacao(), op.getOperacoesDaConta(0).get(0).getValorOperacao());
+        assertEquals(lstOperacao.get(0).getTipoOperacao(), op.getOperacoesDaConta(0).get(0).getTipoOperacao());
+        
+        assertEquals(lstOperacao.get(1).getValorOperacao(), op.getOperacoesDaConta(5).get(0).getValorOperacao());
+        assertEquals(lstOperacao.get(1).getTipoOperacao(), op.getOperacoesDaConta(5).get(0).getTipoOperacao());
+
+        assertEquals(lstOperacao.get(2).getValorOperacao(), op.getOperacoesDaConta(6).get(0).getValorOperacao());
+        assertEquals(lstOperacao.get(2).getTipoOperacao(), op.getOperacoesDaConta(6).get(0).getTipoOperacao());
+        
+        assertEquals(lstOperacao.get(3).getValorOperacao(), op.getOperacoesDaConta(1).get(0).getValorOperacao());         assertEquals(lstOperacao.get(2).getTipoOperacao(), op.getOperacoesDaConta(6).get(0).getTipoOperacao());
+        assertEquals(lstOperacao.get(3).getTipoOperacao(), op.getOperacoesDaConta(1).get(0).getTipoOperacao());
+
     }
     @Test
-    public void testCreatDeposito()
+    public void testOperacoesDia()
     {
-        assertEquals(contasTest.getSaldo(0), 100000);
-        assertEquals(contasTest.getSaldo(1), 5001000);
+        assertEquals(op.getOperacoesDia(0).get(0).getValorOperacao(), lstOperacao.get(0).getValorOperacao());
+        assertEquals(op.getOperacoesDia(0).get(0).getTipoOperacao(), lstOperacao.get(0).getTipoOperacao());
 
+        assertEquals(op.getOperacoesDia(5).get(0).getValorOperacao(), lstOperacao.get(1).getValorOperacao());
+        assertEquals(op.getOperacoesDia(5).get(0).getTipoOperacao(), lstOperacao.get(1).getTipoOperacao());
+
+        assertEquals(op.getOperacoesDia(6).get(0).getValorOperacao(), lstOperacao.get(2).getValorOperacao());
+        assertEquals(op.getOperacoesDia(6).get(0).getTipoOperacao(), lstOperacao.get(2).getTipoOperacao());
+
+        assertEquals(op.getOperacoesDia(1).get(0).getValorOperacao(), lstOperacao.get(3).getValorOperacao());
+        assertEquals(op.getOperacoesDia(1).get(0).getTipoOperacao(), lstOperacao.get(3).getTipoOperacao());
+
+        
     }
 }
