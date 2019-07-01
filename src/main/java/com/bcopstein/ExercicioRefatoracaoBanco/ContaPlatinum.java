@@ -48,10 +48,11 @@ public class ContaPlatinum implements StatusConta
     public StatusConta retirada (double valor)
     {
         saldo -= valor;
-        if(saldo < LIM_PLATINUM_GOLD)
-            return new ContaGold(numConta, saldo, correntista, saldoInicial);
-        else if (saldo < LIM_GOLD_SILVER)
+        if (saldo < LIM_GOLD_SILVER)
             return new ContaSilver(numConta, saldo, correntista, saldoInicial);
+        else if(saldo < LIM_PLATINUM_GOLD)
+            return new ContaGold(numConta, saldo, correntista, saldoInicial);
+
         return this;
     }
 

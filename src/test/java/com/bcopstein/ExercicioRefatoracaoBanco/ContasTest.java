@@ -33,10 +33,10 @@ public class ContasTest {
         Map<Integer, Conta> contas = new HashMap<>();
         Conta conta10 = new Conta(10, "John Doe");
         Conta conta12 = new Conta(12, "Jane Doe");
-        Conta conta15 = new Conta(15, "Sam Smith", 100, 0);
-        Conta contaRetirada = new Conta(100, "ContaParaRetirada", 200, 0);
-        Conta contaDeposito = new Conta(200, "ContaParaDeposito", 10, 0);
-        Conta contaComSaldo = new Conta(300, "ContaComSaldo", 100, 0);
+        Conta conta15 = new Conta(15, "Sam Smith", 100);
+        Conta contaRetirada = new Conta(100, "ContaParaRetirada", 200);
+        Conta contaDeposito = new Conta(200, "ContaParaDeposito", 10);
+        Conta contaComSaldo = new Conta(300, "ContaComSaldo", 100);
         contas.put(10, conta10);
         contas.put(12, conta12);
         contas.put(15, conta15);

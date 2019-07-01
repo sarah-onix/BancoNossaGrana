@@ -46,10 +46,11 @@ public class ContaSilver implements StatusConta
     public StatusConta deposito (double valor)
     {
         saldo += valor;
-        if(saldo >= LIM_SILVER_GOLD)
-            return new ContaGold(numConta, saldo, correntista, saldoInicial);
-        else if(saldo >= LIM_GOLD_PLATINUM)
+        if(saldo >= LIM_GOLD_PLATINUM)
             return new ContaPlatinum(numConta, saldo, correntista, saldoInicial);
+        else if(saldo >= LIM_SILVER_GOLD)
+            return new ContaGold(numConta, saldo, correntista, saldoInicial);
+        
         return this;
     }
 
