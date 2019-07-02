@@ -37,7 +37,6 @@ public class TelaEstatistica {
         this.cenaOperacoes = cenaOperacoes;
         this.numeroConta = numeroConta;
     }
-
     public Scene getTelaEstatistica() {
         // Sets grid
         GridPane grid = new GridPane();
