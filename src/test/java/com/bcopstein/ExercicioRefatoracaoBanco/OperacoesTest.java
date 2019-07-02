@@ -31,7 +31,7 @@ public class OperacoesTest {
         lstOperacao = new ArrayList<>();
         Persistencia mockPersistencia = mock(Persistencia.class);
         contas = new HashMap<>();
-        op = new Operacoes(mockPersistencia);
+        op = new Operacoes(mockPersistencia,true);
         contasTest = new Contas(mockPersistencia, op, true);
 
 
@@ -98,7 +98,7 @@ public class OperacoesTest {
         lstOperacao.add(op5);
         lstOperacao.add(op6);
         lstOperacao.add(op1);
-                
+
 
 
 

@@ -12,10 +12,11 @@ import java.util.stream.Collectors;
 public class Operacoes {
 
     private List<Operacao> operacoes;
+
     private Persistencia persistencia;
+
     private static boolean alreadyInstantiated;
 
-    
     public Operacoes(Persistencia persistencia, boolean isTest) {
         this.persistencia = persistencia;
         operacoes = this.persistencia.loadOperacoes();
