@@ -1,18 +1,18 @@
 package com.bcopstein.ExercicioRefatoracaoBanco;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.rules.ExpectedException;
-import org.junit.Test;
+import com.bcopstein.ExercicioRefatoracaoBanco.entity.Conta;
+import com.bcopstein.ExercicioRefatoracaoBanco.entity.ContasFactory;
+import com.bcopstein.ExercicioRefatoracaoBanco.entity.Operacao;
+import com.bcopstein.ExercicioRefatoracaoBanco.repository.Persistencia;
+import com.bcopstein.ExercicioRefatoracaoBanco.service.Contas;
+import com.bcopstein.ExercicioRefatoracaoBanco.service.Operacoes;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.util.*;
 
 import javax.management.InstanceAlreadyExistsException;
 
-import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -22,10 +22,10 @@ public class OperacoesTest {
     Map<Integer, Conta> contas;
     Contas contasTest;
     List<Operacao> lstOperacao;
-   
-   
 
-    @Before
+
+
+    @BeforeEach
     public void setup() throws InstanceAlreadyExistsException
     {
         lstOperacao = new ArrayList<>();
@@ -37,10 +37,10 @@ public class OperacoesTest {
 
 
 
-        Conta conta1000 = new Conta(1, "Gabriel", 1000);
-        Conta conta5000000 = new Conta(5, "João", 5000000);
-        Conta conta0 = new Conta(0, "Maria");
-        Conta conta60000 = new Conta(6, "Sara", 60000);
+        Conta conta1000 = ContasFactory.getConta(1, "Gabriel", 1000);
+        Conta conta5000000 = ContasFactory.getConta(5, "João", 5000000);
+        Conta conta0 = ContasFactory.getConta(0, "Maria");
+        Conta conta60000 = ContasFactory.getConta(6, "Sara", 60000);
         contas.put(1, conta1000);
         contas.put(5, conta5000000);
         contas.put(0, conta0);
