@@ -1,1 +1,1 @@
-130;Aloisio Dexter;176882.020000;1;100;Luis Antonio Feliz;507600.000000;1;150;Maria Rita Polida;1000.000000;0;200;Sara Tkinski;53790.000000;1;300;Carlos Alberto Tristao;52440.000000;1;
+130;Aloisio Dexter;50.000000;0;100;Luis Antonio Feliz;2600.000000;0;150;Maria Rita Polida;6000.000000;0;200;Sara Tkinski;53790.000000;1;300;Carlos Alberto Tristao;33450.000000;1;
