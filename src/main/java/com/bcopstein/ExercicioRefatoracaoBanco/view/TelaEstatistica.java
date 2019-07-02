@@ -1,5 +1,8 @@
-package com.bcopstein.ExercicioRefatoracaoBanco;
+package com.bcopstein.ExercicioRefatoracaoBanco.view;
 
+import com.bcopstein.ExercicioRefatoracaoBanco.entity.Operacao;
+import com.bcopstein.ExercicioRefatoracaoBanco.service.BancoFacade;
+import com.bcopstein.ExercicioRefatoracaoBanco.util.CalendarTranslator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -72,7 +75,7 @@ public class TelaEstatistica {
         saldoMedio = new TextField("000.00" + "$");
         totalDeCreditosLabel = new Label("Total de créditos no periodo: $" + "000.00");
         totalDeDebitosLabel = new Label("Total de débitos no periodo: $" + "000.00");
-        TableColumn dataColumnCreditos = new TableColumn("Data");
+        TableColumn dataColumnCreditos = new TableColumn("Data:");
         TableColumn valorColumnCreditos = new TableColumn("Valor R$:");
         TableColumn dataColumnDebitos = new TableColumn("Data:");
         TableColumn valorColumnDebitos = new TableColumn("Valor R$:");

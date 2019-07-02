@@ -1,8 +1,11 @@
-package com.bcopstein.ExercicioRefatoracaoBanco;
+package com.bcopstein.ExercicioRefatoracaoBanco.view;
 
-import com.bcopstein.ExercicioRefatoracaoBanco.ProjectExceptions.AccountWithdrawalLimitExceededException;
-import com.bcopstein.ExercicioRefatoracaoBanco.ProjectExceptions.InvalidAccountException;
-import com.bcopstein.ExercicioRefatoracaoBanco.ProjectExceptions.NotEnoughFundsException;
+import com.bcopstein.ExercicioRefatoracaoBanco.entity.Operacao;
+import com.bcopstein.ExercicioRefatoracaoBanco.service.BancoFacade;
+import com.bcopstein.ExercicioRefatoracaoBanco.util.ProjectExceptions.AccountWithdrawalLimitExceededException;
+import com.bcopstein.ExercicioRefatoracaoBanco.util.ProjectExceptions.InvalidAccountException;
+import com.bcopstein.ExercicioRefatoracaoBanco.util.ProjectExceptions.NotEnoughFundsException;
+import com.bcopstein.ExercicioRefatoracaoBanco.util.Validations;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -122,13 +125,11 @@ public class TelaOperacoes {
         btnDebito.setOnAction(e->{
         	try {
           	  double valor = Integer.parseInt(tfValorOperacao.getText());
-				if (Validations.isWithdrawalValid(numeroConta, valor)) {
 					BancoFacade.getInstance().retirada(numeroConta, valor);
 					tfSaldo.setText("" + BancoFacade.getInstance().getSaldo(numeroConta));
 					update();
 					extrato.setItems(ultimasOperacoes);
 					tfSaldo.setText("" + BancoFacade.getInstance().getSaldo(numeroConta));
-          	  }
 			} catch (AccountWithdrawalLimitExceededException limEx) {
   				Alert alert = new Alert(AlertType.WARNING);
 				alert.setTitle("Limite excedido !!");

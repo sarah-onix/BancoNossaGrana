@@ -1,4 +1,8 @@
-package com.bcopstein.ExercicioRefatoracaoBanco;
+package com.bcopstein.ExercicioRefatoracaoBanco.repository;
+
+import com.bcopstein.ExercicioRefatoracaoBanco.entity.Conta;
+import com.bcopstein.ExercicioRefatoracaoBanco.entity.ContasFactory;
+import com.bcopstein.ExercicioRefatoracaoBanco.entity.Operacao;
 
 import javax.management.InstanceAlreadyExistsException;
 import java.io.File;
@@ -26,7 +30,7 @@ public class Persistencia {
 
     }
 
-    public Map<Integer,Conta> loadContas(){
+    public Map<Integer, Conta> loadContas() {
     	Map<Integer,Conta> contas = new HashMap<>();
     	
         String currDir = Paths.get("").toAbsolutePath().toString();
@@ -38,14 +42,12 @@ public class Persistencia {
            int numero;
            String nomeCorr;
            double saldo;
-           int status;
-           while (sc.hasNext()){ 
+           while (sc.hasNext()){
                numero = Integer.parseInt(sc.next()); 
                nomeCorr = sc.next();
                saldo = Double.parseDouble(sc.next());
-               status = Integer.parseInt(sc.next());
-               Conta conta = new Conta(numero,nomeCorr,saldo);//tirei o status pois é possivel saber com o saldo inicial
-               contas.put(numero, conta);
+               sc.next();
+               contas.put(numero, ContasFactory.getConta(numero,nomeCorr,saldo));
            }
         }catch (IOException x){ 
             System.err.format("Erro de E/S: %s%n", x);

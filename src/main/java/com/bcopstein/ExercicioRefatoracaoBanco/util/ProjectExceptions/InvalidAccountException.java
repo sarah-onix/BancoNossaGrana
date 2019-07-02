@@ -1,4 +1,4 @@
-package com.bcopstein.ExercicioRefatoracaoBanco.ProjectExceptions;
+package com.bcopstein.ExercicioRefatoracaoBanco.util.ProjectExceptions;
 
 public class InvalidAccountException extends Exception {
     public InvalidAccountException() {

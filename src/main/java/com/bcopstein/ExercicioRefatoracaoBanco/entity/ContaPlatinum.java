@@ -1,5 +1,5 @@
 
-package com.bcopstein.ExercicioRefatoracaoBanco;
+package com.bcopstein.ExercicioRefatoracaoBanco.entity;
 
 public class ContaPlatinum implements StatusConta
 {
@@ -8,22 +8,22 @@ public class ContaPlatinum implements StatusConta
 	private final int LIM_GOLD_SILVER = 25000;
     private int numConta;
     private double saldo;
-    private double saldoInicial;
     private String correntista;
 
-    public ContaPlatinum(int numConta, double saldo, String nome, double saldoInicial)
+    public ContaPlatinum(int numConta, double saldo, String nome)
     {
         this.numConta = numConta;
         this.saldo = saldo;
         correntista = nome;
-        this.saldoInicial = saldoInicial;
     }
 
     @Override
     public double getSaldo(){return saldo;}
 
     @Override
-    public Integer getNumero(){return numConta;}
+    public int getNumero() {
+        return numConta;
+    }
 
     @Override 
     public String getCorrentista(){return correntista;}
@@ -48,14 +48,11 @@ public class ContaPlatinum implements StatusConta
     public StatusConta retirada (double valor)
     {
         saldo -= valor;
-        if (saldo < LIM_GOLD_SILVER)
-            return new ContaSilver(numConta, saldo, correntista, saldoInicial);
-        else if(saldo < LIM_PLATINUM_GOLD)
-            return new ContaGold(numConta, saldo, correntista, saldoInicial);
-
+        if(saldo < LIM_PLATINUM_GOLD)
+            return new ContaGold(numConta, saldo, correntista);
+        else if (saldo < LIM_GOLD_SILVER)
+            return new ContaSilver(numConta, saldo, correntista);
         return this;
     }
 
-    @Override
-    public double getSaldoInicial(){return 0; }
 }

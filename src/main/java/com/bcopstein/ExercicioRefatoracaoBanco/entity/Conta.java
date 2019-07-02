@@ -1,22 +1,21 @@
-package com.bcopstein.ExercicioRefatoracaoBanco;
+package com.bcopstein.ExercicioRefatoracaoBanco.entity;
 
 public class Conta {
 	StatusConta statusConta;
 
 	public Conta(int umNumero, String umNome) {
-		statusConta = new ContaSilver(umNumero, 0.0, umNome, 0.0);
+		statusConta = new ContaSilver(umNumero, 0.0, umNome);
 	}
 
-	public Conta(int umNumero, String umNome, double umSaldo) {
-		statusConta = new ContaSilver(umNumero, 0.0, umNome, umSaldo);
-		statusConta = statusConta.deposito(umSaldo);
+	public Conta(StatusConta statusConta){
+		this.statusConta = statusConta;
 	}
 
 	public double getSaldo() {
 		return statusConta.getSaldo();
 	}
 
-	public Integer getNumero() {
+	public int getNumero() {
 		return statusConta.getNumero();
 	}
 
@@ -43,10 +42,6 @@ public class Conta {
 	public void retirada(double valor) {
         statusConta = statusConta.retirada(valor);
     }
-
-    public double getSaldoInicial () {
-        return statusConta.getSaldoInicial();
-	}
 
     @Override
     public String toString () {

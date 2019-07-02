@@ -32,8 +32,8 @@ class ContasTest {
     void setUp() {
         Persistencia mockPersistencia = mock(Persistencia.class);
         Map<Integer, Conta> contas = new HashMap<>();
-        Conta conta10 = ContasFactory.getConta(10, "John Doe"); // saldo é 0
-        Conta conta12 = ContasFactory.getConta(12, "Jane Doe"); // saldo é 0
+        Conta conta10 = new Conta(10, "John Doe"); // saldo é 0
+        Conta conta12 = new Conta(12, "Jane Doe"); // saldo é 0
         Conta conta15 = ContasFactory.getConta(15, "Sam Smith", 100.00);
         // we can use factory because it is static
         Conta contaRetirada = ContasFactory.getConta(100, "ContaParaRetirada", 200.00);

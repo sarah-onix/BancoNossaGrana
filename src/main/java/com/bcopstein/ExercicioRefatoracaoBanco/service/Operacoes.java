@@ -1,4 +1,7 @@
-package com.bcopstein.ExercicioRefatoracaoBanco;
+package com.bcopstein.ExercicioRefatoracaoBanco.service;
+
+import com.bcopstein.ExercicioRefatoracaoBanco.entity.Operacao;
+import com.bcopstein.ExercicioRefatoracaoBanco.repository.Persistencia;
 
 import javax.management.InstanceAlreadyExistsException;
 import java.util.Calendar;
@@ -79,6 +82,7 @@ public class Operacoes {
                     .filter(op -> op.getNumeroConta() == numeroConta)
                     .filter(op -> op.getDia() == Calendar.getInstance().get(Calendar.DAY_OF_MONTH))
                     .filter(op -> op.getMes() == Calendar.getInstance().get(Calendar.MONTH) + 1)
+                    .filter(op -> op.getAno() == Calendar.getInstance().get(Calendar.YEAR))
                     .collect(Collectors.toList())
         );
     }

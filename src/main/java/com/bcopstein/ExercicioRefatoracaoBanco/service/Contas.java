@@ -1,4 +1,9 @@
-package com.bcopstein.ExercicioRefatoracaoBanco;
+package com.bcopstein.ExercicioRefatoracaoBanco.service;
+
+import com.bcopstein.ExercicioRefatoracaoBanco.entity.Conta;
+import com.bcopstein.ExercicioRefatoracaoBanco.entity.Operacao;
+import com.bcopstein.ExercicioRefatoracaoBanco.repository.Persistencia;
+import com.bcopstein.ExercicioRefatoracaoBanco.util.ProjectExceptions.InvalidAccountException;
 
 import javax.management.InstanceAlreadyExistsException;
 import java.util.ArrayList;
@@ -6,6 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
 
 public class Contas {
 
@@ -16,7 +22,6 @@ public class Contas {
     private Operacoes operacoes;
 
     private Persistencia persistencia;
-
 
     public Contas(Persistencia persistencia, Operacoes operacoes, boolean isTest) {
         this.persistencia = persistencia;
@@ -45,8 +50,11 @@ public class Contas {
         return false;
     }
 
-    public String getCorrentista(int nroConta) {
-        return contas.get(nroConta).getCorrentista();
+    public String getCorrentista(int nroConta) throws InvalidAccountException {
+        if (contas.containsKey(nroConta)) {
+            return contas.get(nroConta).getCorrentista();
+        }
+        return "CONTA_INEXISTENTE";
     }
 
     public String getStrStatus(int nroConta) {
@@ -63,22 +71,28 @@ public class Contas {
 
     public double getTotalRetiradaDia(int numConta)
     {
-        LinkedList<Operacao> operacoesDia = (LinkedList<Operacao>) BancoFacade.getInstance().getOperacoesDia(numConta);
+        LinkedList<Operacao> operacoesDia = (LinkedList<Operacao>) operacoes.getOperacoesDia(numConta);
         double totalDia = 0;
         for( Operacao o : operacoesDia)
         {
-            if(o.getTipoOperacao() == 1) //1 é o código de oprração de débito
+            if (o.getTipoOperacao() == 1) //1 é o código de operação de débito
                 totalDia += o.getValorOperacao();
         }
         return totalDia;
     }
 
     public void retirada(int numeroConta, double valor) {
+        if (valor <= 0) {
+            return;
+        }
         contas.get(numeroConta).retirada(valor);
         operacoes.createRetirada(numeroConta, valor, contas.get(numeroConta).getStatus());
     }
 
     public void deposito(int numeroConta, double valor) {
+        if (valor <= 0) {
+            return;
+        }
         Conta conta = contas.get(numeroConta);
         conta.deposito(valor);
         operacoes.createDeposito(numeroConta, valor, conta.getStatus());
@@ -129,9 +143,6 @@ public class Contas {
     }
 
 
-    /*
-     * ISSUE: THIS NEEDS TO BE FIXED
-     * */
     public double getSaldoMedioNoMes(int numeroConta, int monthValue, int yearValue) {
         boolean over = false;
         List<Operacao> operacoesBeforeYear =
@@ -141,6 +152,7 @@ public class Contas {
                                 .filter(op -> op.getAno() <= yearValue)
                                 .collect(Collectors.toList())
                 );
+
         List<Operacao> operacoesBeforeDate = new ArrayList<>();
         for (Operacao x : operacoesBeforeYear) {
             if (x.getAno() == yearValue) {
@@ -151,6 +163,7 @@ public class Contas {
                 operacoesBeforeDate.add(x);
             }
         }
+
         List<Operacao> operacoesNoMesTemp =
                 new ArrayList<>(
                         operacoes.getOperacoesDaConta(numeroConta)
@@ -159,84 +172,40 @@ public class Contas {
                                 .filter(op -> op.getMes() == monthValue)
                                 .collect(Collectors.toList())
                 );
-        double saldoMedioNoMes;
-        if (operacoesNoMesTemp.isEmpty()) {
-            return contas.get(numeroConta).getSaldoInicial();
-        } else {
-            int day = 0;
-            int hour = 0;
-            int minute = 0;
-            int second = 0;
-            Operacao firstOp = null;
-            boolean first = true;
-            for (Operacao x : operacoesNoMesTemp) {
-                if (first) {
-                    first = false;
-                    day = x.getDia();
-                    hour = x.getHora();
-                    minute = x.getMinuto();
-                    second = x.getSegundo();
-                    firstOp = x;
-                }
-                if (x.getDia() < day) {
-                    day = x.getDia();
-                    hour = x.getHora();
-                    minute = x.getMinuto();
-                    second = x.getSegundo();
-                    firstOp = x;
-                }
-                if (x.getDia() == day) {
-                    if (x.getHora() == hour) {
-                        if (x.getMinuto() < minute) {
-                            day = x.getDia();
-                            hour = x.getHora();
-                            minute = x.getMinuto();
-                            second = x.getSegundo();
-                            firstOp = x;
-                        } else if (x.getMinuto() == minute) {
-                            if (x.getSegundo() == second) {
-                                break;
-                            } else if (x.getSegundo() < second) {
-                                day = x.getDia();
-                                hour = x.getHora();
-                                minute = x.getMinuto();
-                                second = x.getSegundo();
-                                firstOp = x;
-                            }
-                        } else if (x.getMinuto() < minute) {
-                            day = x.getDia();
-                            hour = x.getHora();
-                            minute = x.getMinuto();
-                            second = x.getSegundo();
-                            firstOp = x;
-                        }
-                    } else if (x.getHora() < hour) {
-                        day = x.getDia();
-                        hour = x.getHora();
-                        minute = x.getMinuto();
-                        second = x.getSegundo();
-                        firstOp = x;
-                    }
-                }
-            }
-            operacoesBeforeDate.add(firstOp); // now it is before inclusive
 
-            List<Double> saldosNoMes = new ArrayList<>();
-            for (Operacao x : operacoesNoMesTemp) {
+            double saldoAnterior = 0;
+            for(Operacao x:operacoesBeforeDate){
                 if (x.getTipoOperacao() == 0) {
-                    saldosNoMes.add(x.getValorOperacao());
+                    saldoAnterior += x.getValorOperacao();
                 } else {
-                    saldosNoMes.add(-x.getValorOperacao());
+                    saldoAnterior -= x.getValorOperacao();
                 }
             }
 
-            double soma = 0;
-            for (Double x : saldosNoMes) {
-                soma += x;
-            }
-            return soma / 30;
-        }
 
-    }
+            double saldoNoMes = 0;
+            double saldoTotalDoMes = 0;
+            for(int i = 1;i<=30;i++){
+                int dia = i;
+                List<Operacao> operacoesDodia =
+                        new ArrayList<>(
+                                operacoesNoMesTemp
+                                        .stream()
+                                        .filter(op -> op.getDia() == dia)
+                                        .collect(Collectors.toList())
+                        );
+                for(Operacao x : operacoesDodia){
+                    if (x.getTipoOperacao() == 0) {
+                        saldoAnterior += x.getValorOperacao();
+                    } else {
+                        saldoAnterior -= x.getValorOperacao();
+                    }
+
+                }
+                saldoTotalDoMes += saldoAnterior;
+            }
+
+            return saldoTotalDoMes / 30;
+        }
 
 }

@@ -1,8 +1,11 @@
-package com.bcopstein.ExercicioRefatoracaoBanco;
+package com.bcopstein.ExercicioRefatoracaoBanco.service;
 
-import com.bcopstein.ExercicioRefatoracaoBanco.ProjectExceptions.AccountWithdrawalLimitExceededException;
-import com.bcopstein.ExercicioRefatoracaoBanco.ProjectExceptions.InvalidAccountException;
-import com.bcopstein.ExercicioRefatoracaoBanco.ProjectExceptions.NotEnoughFundsException;
+import com.bcopstein.ExercicioRefatoracaoBanco.entity.Operacao;
+import com.bcopstein.ExercicioRefatoracaoBanco.repository.Persistencia;
+import com.bcopstein.ExercicioRefatoracaoBanco.util.ProjectExceptions.AccountWithdrawalLimitExceededException;
+import com.bcopstein.ExercicioRefatoracaoBanco.util.ProjectExceptions.InvalidAccountException;
+import com.bcopstein.ExercicioRefatoracaoBanco.util.ProjectExceptions.NotEnoughFundsException;
+import com.bcopstein.ExercicioRefatoracaoBanco.util.Validations;
 
 import javax.management.InstanceAlreadyExistsException;
 import java.util.List;
@@ -41,39 +44,42 @@ public class BancoFacade {
         return operacoes.getOperacoesDaConta(numeroConta);
     }
 
-    public List<Operacao> getOperacoesDia(int numConta)
-    {
+    public List<Operacao> getOperacoesDia(int numConta) {
         return operacoes.getOperacoesDia(numConta);
     }
 
-    public String getCorrentista(Integer numeroConta) {
-        return contas.getCorrentista(numeroConta);
+    public String getCorrentista(int numeroConta) {
+        try {
+            return contas.getCorrentista(numeroConta);
+        } catch (InvalidAccountException e) {
+            return "NON-EXISTENT ACCOUNT!";
+        }
     }
 
-    public String getStrStatus(Integer numeroConta) {
+    public String getStrStatus(int numeroConta) {
         return contas.getStrStatus(numeroConta);
     }
-    public double getTotalRetiradaDia(int numConta)
-    {
+
+    public double getTotalRetiradaDia(int numConta) {
         return contas.getTotalRetiradaDia(numConta);
     }
 
-    public double getLimRetiradaDiaria(Integer numeroConta) {
+    public double getLimRetiradaDiaria(int numeroConta) {
         return contas.getLimRetiradaDiaria(numeroConta);
     }
 
-    public double getSaldo(Integer numeroConta) {
+    public double getSaldo(int numeroConta) {
         return contas.getSaldo(numeroConta);
     }
 
-    public void deposito(Integer numeroConta, double valor) throws InvalidAccountException, NumberFormatException {
+    public void deposito(int numeroConta, double valor) throws InvalidAccountException, NumberFormatException {
         if (Validations.isDepositValid(numeroConta, valor)) {
             contas.deposito(numeroConta, valor);
         }
     }
 
     public void retirada(Integer numeroConta, double valor) throws NotEnoughFundsException, InvalidAccountException, AccountWithdrawalLimitExceededException {
-        if (Validations.isWithdrawalValid(numeroConta, valor)) {
+        if (Validations.isWithdrawalValid(contas.getTotalRetiradaDia(numeroConta), contas.getLimRetiradaDiaria(numeroConta), contas.getSaldo(numeroConta), valor)) {
             contas.retirada(numeroConta, valor);
         }
     }
